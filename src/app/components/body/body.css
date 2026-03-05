@@ -1,0 +1,102 @@
+/* Ancho fijo y centrado para la columna de ID/Número */
+.columna-id {
+    width: 60px;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Ancho recomendado para nombres (más ancho que ID) */
+.columna-nombre {
+    width: 20%;      /* Puedes usar porcentaje */
+    min-width: 150px; /* O un ancho mínimo en píxeles */
+}
+
+/* Ancho recomendado para descripciones (suele ser el más ancho) */
+.columna-descripcion {
+    width: 35%;
+    min-width: 250px;
+}
+
+
+/* -------------------------------------------------------------------
+   ESTILOS RESPONSIVOS PARA TABLAS (MODO TARJETA)
+   Aplicable solo a dispositivos móviles (hasta 767px)
+------------------------------------------------------------------- */
+
+@media screen and (max-width: 767px) {
+    
+    /* Oculta el contenedor de desplazamiento que Bootstrap añadiría, 
+       ya que la tabla cambiará de formato. */
+    .table-responsive {
+        overflow-x: hidden;
+    }
+
+    /* Reglas para la tabla */
+    .table {
+        border: none !important; /* Quitar bordes para que parezcan tarjetas */
+        margin-bottom: 0;
+    }
+
+    /* Ocultar los encabezados de columna de la tabla */
+    .table thead {
+        position: absolute;
+        clip: rect(0 0 0 0);
+        overflow: hidden;
+        margin: -1px;
+        padding: 0;
+        height: 1px;
+        width: 1px;
+        border: 0;
+    }
+
+    /* Hacer que las filas de la tabla parezcan bloques */
+    .table tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid #dee2e6; /* Borde de tarjeta */
+        border-radius: 0.5rem; /* Bordes redondeados */
+        background-color: #fff;
+    }
+
+    /* Transformar celdas en bloques */
+    .table td, .table th {
+        display: block;
+        /* CAMBIO CLAVE 1: Eliminamos el padding-left fijo. */
+        padding-left: 0.5rem; 
+        text-align: left !important; /* Alineamos todo a la izquierda */
+        position: relative;
+        border: none; /* Eliminar bordes de celda */
+    }
+
+    /* Mostrar la etiqueta de la columna usando el atributo data-label */
+    .table td::before, .table th::before {
+        content: attr(data-label) ": "; 
+        
+        /* CAMBIO CLAVE 2: La etiqueta ocupa SOLO el espacio que necesita (inline-block) */
+        display: inline-block; 
+        
+        /* CAMBIO CLAVE 3: El valor del dato se mueve justo después de la etiqueta */
+        position: static; 
+        
+        /* Eliminamos los anchos fijos que causaban la separación */
+        width: auto; 
+        padding-right: 0.5rem; /* Pequeña separación */
+        
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: #495057;
+    }
+
+    /* Ajuste especial para las celdas de Acciones y Botones */
+    .table td[data-label="Acciones"], .table th[data-label="Acciones"] {
+        text-align: center !important; /* Centrar los botones de acción */
+        padding-left: 0; 
+        border-top: 1px solid #dee2e6;
+    }
+    
+    .table td[data-label="Acciones"]::before, .table th[data-label="Acciones"]::before {
+        content: ""; /* Ocultar la etiqueta "Acciones" en móvil */
+    }
+}
+    

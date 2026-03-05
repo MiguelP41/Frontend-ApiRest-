@@ -1,0 +1,126 @@
+<!-- component -->
+<!-- component -->
+<div class="absolute top-0 left-0 bottom-0 leading-5 h-full w-full overflow-hidden
+           bg-cover bg-center bg-no-repeat" style="background-image: url('gym.jpg');">
+    <div class="absolute top-0 left-0 w-full h-full bg-linear-to-b from-orange-400 to-orange-600 opacity-90"></div>
+</div>
+
+
+<div class="relative min-h-screen sm:flex sm:flex-row justify-center bg-transparent rounded-3xl shadow-xl">
+    <div class="flex-col flex self-center lg:px-14 sm:max-w-4xl  z-10">
+        <div class="self-start hidden lg:flex flex-col text-gray-100">
+            <h1 class="my-3 font-semibold text-4xl ">CFI Athletics | Gimnasio Gym</h1>
+            <p class="pr-3 text-sm opacity-90">Te ofrecemos la plataforma para asegurar tu bienestar físico <br> y tu
+                energía a
+                largo plazo.
+
+            </p>
+        </div>
+    </div>
+
+    <div class="flex justify-center self-center z-10 mt-14">
+        <form [formGroup]="loginForm" (ngSubmit)="login()" class="p-10 bg-white mx-auto rounded-3xl w-96 ">
+            <div class="mb-7">
+                <h3 class="font-semibold text-2xl text-gray-800">Inicio Sesión </h3>
+                <button type="button" class="text-gray-400">Don'thave an account? <a href="#"
+                        class="text-sm text-gray-500! hover:text-gray-800!">Sign Up</a>
+                </button>
+            </div>
+
+            <div class="space-y-6">
+                <div class="">
+                    <input formControlName="username"
+                        class=" w-full text-sm text-gray-600 px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
+                        type="text" placeholder="UserName">
+                </div>
+                <div class="relative">
+                    <input formControlName="password" placeholder="Password" type="password"
+                        class="text-sm text-gray-600 px-4 py-3 rounded-lg w-full bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-purple-400">
+                    <div class="flex items-center absolute inset-y-0 right-0 mr-3 text-sm leading-5">
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="text-sm ml-auto">
+                        <a href="#" class="text-gray-500! hover:text-gray-800!">
+                            Olvido su Contraseña?
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" [disabled]="loginForm.invalid || isLoading()"
+                        [class.opacity-50]="loginForm.invalid || isLoading()"
+                        class="mb-4 w-full flex justify-center bg-orange-500 hover:bg-orange-400 text-gray-100 p-3 rounded-lg tracking-wide font-semibold cursor-pointer transition ease-in duration-500">
+
+                        <ng-container *ngIf="isLoading(); else signInText">
+                            Loading...
+                        </ng-container>
+                        <ng-template #signInText>
+                            Sign in
+                        </ng-template>
+                    </button>
+                </div>
+
+                <div class="h-8">
+                    <div *ngIf="errorMessage()"
+                        class="p-1 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+                        role="alert">
+                        <span class="font-medium">Error de Autenticación:</span> {{ errorMessage() }}
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-center space-x-1 my-0">
+                    <span class="h-px w-16 bg-gray-100"></span>
+                    <span class="text-gray-300 font-normal ">or</span>
+                    <span class="h-px w-16 bg-gray-100"></span>
+                </div>
+
+                <div class="flex justify-center gap-5 w-full ">
+                    <button type="button"
+                        class="w-full flex items-center justify-center mb-6 md:mb-0 border border-gray-300 hover:border-gray-900 hover:bg-gray-900 text-sm text-gray-600 p-3 rounded-lg tracking-wide font-medium cursor-pointer transition ease-in duration-500">
+                        <svg class="w-4 mr-2" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M44.5 20H24V28H35.45C34.78 30.29 33.13 32.18 30.93 33.32L30.95 33.34L37.95 38.6C42.02 34.62 44.5 29.35 44.5 20Z"
+                                fill="#4285F4" />
+                            <path
+                                d="M24 44.5C30.21 44.5 35.45 42.48 39.12 39.12L32.12 33.86C30.15 35.12 27.21 35.88 24 35.88C17.65 35.88 12.11 31.7 10.15 26.03L3.13 31.3C7.26 38.8 15.02 44.5 24 44.5Z"
+                                fill="#34A853" />
+                            <path
+                                d="M10.15 26.03C9.69 24.69 9.44 23.36 9.44 21.97C9.44 20.58 9.69 19.25 10.15 17.91L3.13 12.64C1.65 15.54 0.75 18.66 0.75 21.97C0.75 25.28 1.65 28.4 3.13 31.3L10.15 26.03Z"
+                                fill="#FBBC04" />
+                            <path
+                                d="M24 10.46C27.52 10.46 30.41 11.66 32.74 13.99L38.29 8.44C34.54 4.88 29.43 2.75 24 2.75C15.02 2.75 7.26 8.45 3.13 15.95L10.15 21.22C12.11 15.55 17.65 11.37 24 11.37V10.46Z"
+                                fill="#EA4335" />
+                        </svg>
+                        <span>Google</span>
+                    </button>
+
+                    <button type="button"
+                        class="w-full flex items-center justify-center mb-6 md:mb-0 border border-gray-300 hover:border-gray-900 hover:bg-gray-900 text-sm text-gray-600 p-3 rounded-lg tracking-wide font-medium cursor-pointer transition ease-in duration-500 px-">
+                        <svg class="w-4 mr-2" viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M14 11H17V8H14V6C14 5.44772 14.4477 5 15 5H17V2H14C11.7909 2 10 3.79086 10 6V8H7V11H10V22H14V11Z" />
+                        </svg>
+                        <span>Facebook</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-2 text-center text-gray-300 text-xs">
+                <span>
+                    Copyright © 2025-PintecSolutions
+                </span>
+            </div>
+        </form>
+    </div>
+
+    
+
+    <svg class="absolute bottom-0 left-0  opacity-80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="#fff" fill-opacity="1"
+            d="M0,0L40,42.7C80,85,160,171,240,197.3C320,224,400,192,480,154.7C560,117,640,75,720,74.7C800,75,880,117,960,154.7C1040,192,1120,224,1200,213.3C1280,203,1360,149,1400,122.7L1440,96L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z">
+        </path>
+    </svg>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js"></script>
+
+</div>

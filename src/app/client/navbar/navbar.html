@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+    
+    <!-- Botón para ocultar/mostrar la barra lateral en móvil/escritorio pequeño -->
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+    </button>
+
+    <!-- Topbar Navbar -->
+    <ul class="navbar-nav ml-auto">
+
+        <!-- Nav Item - Botón de Crear Categoría (Integración de tu lógica) -->
+        <!-- CAMBIO: Se añade la clase 'my-auto' para centrarlo verticalmente -->
+        <li class="nav-item mx-1 d-flex align-items-center my-auto">
+            <button 
+                class="btn bg-orange-400! text-gray-100" 
+                (click)="lanzarFormulario()" 
+                type="button">
+                <i class="fas fa-plus mr-2 text-gray-100"></i> Registrar Pago
+            </button>
+        </li>
+        
+        <div class="topbar-divider d-none d-sm-block"></div>
+
+        <!-- Nav Item - User Information (Perfil Demo) -->
+        <li class="nav-item no-arrow">
+            <a class="nav-link " href="#" (click)="onLogoutClick()"  role="button">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Usuario </span>
+                <img class="img-profile rounded-circle" 
+                     src="https://placehold.co/60x60/4e73df/ffffff?text=U" 
+                     style="width: 32px; height: 32px; object-fit: cover;">
+            </a>
+            <!-- Dropdown - User Information (Puedes añadir el menú de Logout aquí si lo necesitas) -->
+        </li>
+
+    </ul>
+
+</nav>
+
+

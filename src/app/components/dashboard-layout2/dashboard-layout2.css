@@ -1,0 +1,31 @@
+/* 1. Hacer las flechas (navigation) más pequeñas */
+swiper-container::part(button-prev),
+swiper-container::part(button-next) {
+    color: #3b82f6; /* El azul de tus iconos */
+    transform: scale(0.5); /* Reduce el tamaño a la mitad */
+    transition: all 0.3s ease;
+}
+
+/* Opcional: mover las flechas un poco más hacia los extremos */
+swiper-container::part(button-prev) {
+    left: 0px;
+}
+swiper-container::part(button-next) {
+    right: 0px;
+}
+
+/* 2. Bajar los puntos de paginación */
+swiper-container::part(pagination) {
+    bottom: 0px; /* Ajusta este valor (0px o incluso valores negativos) */
+    position: absolute;
+}
+
+/* 3. Cambiar el color de los puntos para que combinen */
+swiper-container::part(bullet-active) {
+    background-color: #3b82f6;
+}
+
+/* 4. Asegurar espacio suficiente en el slide para que se vea el diseño */
+swiper-slide {
+    padding-bottom: 40px; /* Crea el hueco para que los puntos bajen sin tapar la tarjeta */
+}
