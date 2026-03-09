@@ -14,7 +14,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router'; // <--- ¡ESTO!
 @Component({
   selector: 'app-dashboard-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, Navbar, Body, CommonModule],
+  imports: [RouterOutlet, RouterLink, Navbar, CommonModule],
   templateUrl: './dashboard-layout.html',
   styleUrl: './dashboard-layout.css'
 })

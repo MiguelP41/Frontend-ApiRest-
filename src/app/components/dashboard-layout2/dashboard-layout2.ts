@@ -14,7 +14,7 @@ import { FormCategoriaComponent } from '../form-categoria/form-categoria';
 @Component({
   selector: 'app-body',
   standalone: true,
-  imports: [CommonModule, FormCategoriaComponent],
+  imports: [CommonModule],
   templateUrl: './dashboard-layout2.html',
   styleUrl: './dashboard-layout2.css',
   // 🟢 ESENCIAL: Permite usar etiquetas personalizadas como <swiper-container>
