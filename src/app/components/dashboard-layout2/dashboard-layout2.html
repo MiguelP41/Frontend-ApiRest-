@@ -12,7 +12,7 @@
   </div>
 
   <div *ngIf="mostrarTabla">
-    <div *ngIf="arrCategorias && arrCategorias.length > 0">
+    <div *ngIf="arrComprobantes && arrComprobantes.length > 0">
       <swiper-container 
         slides-per-view="1" 
         space-between="20" 
@@ -21,7 +21,7 @@
         class="pb-12"
         breakpoints='{"640": {"slidesPerView": 2}, "1024": {"slidesPerView": 3}}'>
         
-        <swiper-slide *ngFor="let item of arrCategorias" class="py-4">
+        <swiper-slide *ngFor="let item of arrComprobantes" class="py-4">
           <div class="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-300 overflow-hidden h-full mx-1">
             <div class="p-5">
               <div class="flex justify-between items-start mb-4">
@@ -70,7 +70,7 @@
       </swiper-container>
     </div>
 
-    <div *ngIf="!arrCategorias || arrCategorias.length === 0" 
+    <div *ngIf="!arrComprobantes || arrComprobantes.length === 0" 
          class="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border-2 border-dashed border-gray-200">
       <i class="fas fa-inbox text-5xl text-gray-200 mb-4"></i>
       <p class="text-gray-500 font-medium">Aún no tienes registros de pagos.</p>
