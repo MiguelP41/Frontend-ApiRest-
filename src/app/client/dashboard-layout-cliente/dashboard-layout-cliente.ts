@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [RouterOutlet, Navbar, CommonModule, Body],
   templateUrl: './dashboard-layout-Cliente.html',
-  styleUrl: './dashboard-layout-Cliente.css'
+  styleUrl: './dashboard-layout-cliente.css'
 })
 export class DashboardLayoutCliente {
   constructor(private router: Router) {
