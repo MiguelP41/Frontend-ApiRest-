@@ -11,9 +11,9 @@ import { map } from 'rxjs/operators';
 
 export class Categorias {
 
- url: any = 'http://localhost:8080/v1/categorias';
+ url: any = 'https://apirest-books.onrender.com/v1/categorias';
 //url: any ='d3id4ip19bf03j.cloudfront.net/v1/categorias';
- urlConImagenes: string = 'http://localhost:8080/v1/categorias-con-imagenes';
+ urlConImagenes: string = 'https://apirest-books.onrender.com/v1/categorias-con-imagenes';
 
   constructor(private http: HttpClient){}
   

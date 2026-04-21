@@ -1,39 +1,47 @@
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
     
-    <!-- Botón para ocultar/mostrar la barra lateral en móvil/escritorio pequeño -->
     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
         <i class="fa fa-bars"></i>
     </button>
 
-    <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
 
-        <!-- Nav Item - Botón de Crear Categoría (Integración de tu lógica) -->
-        <!-- CAMBIO: Se añade la clase 'my-auto' para centrarlo verticalmente -->
         <li class="nav-item mx-1 d-flex align-items-center my-auto">
-            <button 
-                class="btn bg-orange-400! text-gray-100" 
-                (click)="lanzarFormulario()" 
-                type="button">
-                <i class="fas fa-plus mr-2 text-gray-100"></i> Nuevo Usuario
-            </button>
+            
+            <div *ngIf="esGestionPagos" class="relative flex items-center w-55 sm:w-64 md:w-80">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400 text-xs"></i>
+                </div>
+                <input 
+                    type="text" 
+                    (input)="onSearch($event)"
+                    placeholder="Buscar por cliente o monto..." 
+                    class="block w-full pl-9 pr-3 py-2.5 border border-gray-200 rounded-lg bg-gray-50 text-xs focus:outline-none focus:ring-2 focus:ring-orange-400 focus:bg-white transition-all shadow-sm"
+                />
+            </div>
+
+    <button 
+    *ngIf="!esGestionPagos"
+    (click)="lanzarFormulario()" 
+    type="button"
+    class="flex items-center bg-[#FF8A00] hover:bg-[#E67C00] text-white px-10 py-2.5 rounded-lg transition-all duration-200 active:shadow-[inset_0_4px_6px_rgba(0,0,0,0.2)] active:scale-[0.98] border-none"
+>
+    <i class="fas fa-plus mr-3 text-white"></i> 
+    <span class="font-bold text-sm tracking-wide">Nuevo Usuario</span>
+</button>
+            
         </li>
         
         <div class="topbar-divider d-none d-sm-block"></div>
 
-        <!-- Nav Item - User Information (Perfil Demo) -->
         <li class="nav-item no-arrow">
-            <a class="nav-link " href="#" (click)="onLogoutClick()"  role="button">
+            <a class="nav-link" href="#" (click)="onLogoutClick()" role="button">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Usuario Admin</span>
                 <img class="img-profile rounded-circle" 
                      src="https://placehold.co/60x60/4e73df/ffffff?text=U" 
                      style="width: 32px; height: 32px; object-fit: cover;">
             </a>
-            <!-- Dropdown - User Information (Puedes añadir el menú de Logout aquí si lo necesitas) -->
         </li>
 
     </ul>
-
 </nav>
-
-

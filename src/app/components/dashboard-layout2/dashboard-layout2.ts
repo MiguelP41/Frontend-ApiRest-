@@ -23,6 +23,7 @@ export class DashboardLayout implements OnInit, OnDestroy {
 
   // Propiedades de datos
   comprobantesCompletos: any[] = [];
+  comprobantesFiltrados: any[] = [];
   arrComprobantes: any[] = [];
 
   // Paginación
@@ -43,6 +44,7 @@ export class DashboardLayout implements OnInit, OnDestroy {
   // Suscripciones
   private comunicacionSubscription!: Subscription;
   private pollingSubscription!: Subscription; // ✅ Suscripción para el polling
+  private busquedaSubscription!: Subscription;
 
   constructor(
     private _comprobantes: Comprobantes,
@@ -50,33 +52,54 @@ export class DashboardLayout implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    // 🟢 LÓGICA DE POLLING (Tiempo Real)
-    // Consulta al servidor cada 5 segundos
-    this.pollingSubscription = interval(5000)
-      .pipe(
-        startWith(0), // Ejecuta la primera carga de inmediato
-        switchMap(() => this._comprobantes.obtenerComprobantes()) // Consulta al API
-      )
-      .subscribe({
-        next: (respuesta: any) => {
-          const nuevosComprobantes = respuesta?.comprobantesResponse?.comprobantes || [];
+  // 1. ESCUCHAR EL BUSCADOR (Añade esto)
+  this.busquedaSubscription = this.comunicacionService.busqueda$.subscribe(termino => {
+    this.aplicarFiltroLocal(termino);
+  });
+
+  // 2. TU POLLING (Modificado ligeramente para no borrar la búsqueda)
+  this.pollingSubscription = interval(5000)
+    .pipe(
+      startWith(0),
+      switchMap(() => this._comprobantes.obtenerComprobantes())
+    )
+    .subscribe({
+      next: (respuesta: any) => {
+        // Usamos la ruta de datos que me mostraste al principio
+        const nuevosComprobantes = respuesta?.comprobantesResponse?.comprobantes || [];
+        
+        if (JSON.stringify(this.comprobantesCompletos) !== JSON.stringify(nuevosComprobantes)) {
+          this.comprobantesCompletos = nuevosComprobantes;
+          this.totalPaginas = Math.ceil(this.comprobantesCompletos.length / this.elementosPorPagina);
           
-          // Solo actualizamos si la data ha cambiado para no parpadear el UI
-          if (JSON.stringify(this.comprobantesCompletos) !== JSON.stringify(nuevosComprobantes)) {
-            this.comprobantesCompletos = nuevosComprobantes;
-            this.totalPaginas = Math.ceil(this.comprobantesCompletos.length / this.elementosPorPagina);
-            this.actualizarPaginaActual();
-          }
-        },
-        error: (err) => console.error('Error en polling:', err)
-      });
-    
-    // Suscripción al servicio de comunicación del Navbar
-    this.comunicacionSubscription = this.comunicacionService.crearCategoria$.subscribe(() => {
-      this.mostrarFormulario = true;
-      this.mostrarTabla = false;
+          // CLAVE: Cuando lleguen datos nuevos, aplicamos el filtro que esté en el buscador
+          const terminoActual = this.comunicacionService.obtenerTermino(); // Necesitaremos esta pequeña función en el servicio
+          this.aplicarFiltroLocal(terminoActual || '');
+        }
+      }
     });
+
+  // Tu lógica de crear categoría (No se toca)
+  this.comunicacionSubscription = this.comunicacionService.crearCategoria$.subscribe(() => {
+    this.mostrarFormulario = true;
+    this.mostrarTabla = false;
+  });
+}
+
+
+aplicarFiltroLocal(t: string) {
+  if (!t || t.trim() === '') {
+    this.actualizarPaginaActual(); // Si no hay búsqueda, usa tu paginación normal
+  } else {
+    const term = t.toLowerCase().trim();
+    const filtrados = this.comprobantesCompletos.filter(c => 
+      c.referenciaBancaria?.toString().toLowerCase().includes(term) ||
+      c.monto?.toString().includes(term)
+    );
+    // Mostramos los resultados (limitados a 10 para no romper el diseño)
+    this.arrComprobantes = filtrados.slice(0, this.elementosPorPagina);
   }
+}
 
   // --- MÉTODOS DE DATOS ---
 

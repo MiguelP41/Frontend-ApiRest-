@@ -9,9 +9,9 @@ import { map } from 'rxjs/operators';
 export class Comprobantes {
   
 
-  url: any = 'http://localhost:8080/v1/comprobantes';
+  url: any = 'https://apirest-books.onrender.com/v1/comprobantes';
 //url: any ='d3id4ip19bf03j.cloudfront.net/v1/categorias';
- urlConImagenes: string = 'http://localhost:8080/v1/comprobante-con-imagenes';
+ urlConImagenes: string = 'https://apirest-books.onrender.com/v1/comprobante-con-imagenes';
 
   constructor(private http: HttpClient){}
   

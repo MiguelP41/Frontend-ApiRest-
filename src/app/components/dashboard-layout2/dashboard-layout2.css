@@ -16,7 +16,7 @@ swiper-container::part(button-next) {
 
 /* 2. Bajar los puntos de paginación */
 swiper-container::part(pagination) {
-    bottom: 0px; /* Ajusta este valor (0px o incluso valores negativos) */
+    bottom: 0px !important; /* Ajusta este valor (0px o incluso valores negativos) */
     position: absolute;
 }
 
