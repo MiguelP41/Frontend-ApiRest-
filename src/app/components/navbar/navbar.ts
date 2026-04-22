@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common'; // Necesario para el *ngIf
 export class Navbar implements OnInit {
 
   logoutClicked = output<void>();
-  
+  toggleMenu = output<void>();
   // 1. Definir la variable que usa el HTML
   esGestionPagos: boolean = false;
 
@@ -54,5 +54,11 @@ private evaluarRuta(url: string) {
   onLogoutClick() {
     console.log('Evento de Logout emitido desde la Navbar.');
     this.logoutClicked.emit();
+  }
+
+
+  onToggleMenu() {
+    console.log('Emitiendo evento de toggle desde Navbar');
+    this.toggleMenu.emit();
   }
 }

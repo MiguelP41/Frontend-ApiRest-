@@ -3,7 +3,10 @@
     <!-- CLAVES: sidebar y accordion manejan el colapso. 
          d-none (Oculto en móvil) y d-md-block (Visible desde MD). 
          Se eliminan las clases de Tailwind que causaban conflicto. -->
-    <ul class="navbar-nav bg-linear-to-b from-orange-400 to-orange-600 sidebar sidebar-dark accordion d-none d-md-block h-full" id="accordionSidebar">
+    <ul id="accordionSidebar"
+    class="navbar-nav bg-linear-to-b from-orange-400 to-orange-600 sidebar sidebar-dark accordion h-full"
+    [class.sidebar-hidden]="!isSidebarToggled"
+    [class.sidebar-open]="isSidebarToggled">
     
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
             <div class="sidebar-brand-icon rotate-n-15">
@@ -44,13 +47,23 @@
 
     </ul>
 
+
+    <div 
+  *ngIf="isSidebarToggled" 
+  class="sidebar-overlay d-md-none" 
+  (click)="toggleSidebar()">
+</div>
+
+
+
+
     <!-- CONTENEDOR PRINCIPAL -->
     <!-- Se mantiene flex-grow para que ocupe el espacio restante -->
     <div id="content-wrapper" class="d-flex flex-column grow w-full h-full">
 
         <div id="content">
 
-            <app-navbar (logoutClicked)="handleLogout()"></app-navbar> 
+            <app-navbar (logoutClicked)="handleLogout()" (toggleMenu)="toggleSidebar()">></app-navbar> 
             <div class="container-fluid">
                <router-outlet></router-outlet>
             </div>

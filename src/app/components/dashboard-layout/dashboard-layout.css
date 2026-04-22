@@ -1,0 +1,47 @@
+/* --- CONFIGURACIÓN PARA MÓVIL --- */
+@media (max-width: 767px) {
+  #accordionSidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1060;
+    width: 100px !important;
+    height: 100vh !important;
+    transition: transform 0.3s ease-in-out; /* Usar transform es más fluido */
+  }
+
+  /* ESTADO: CERRADO (Móvil) */
+  #accordionSidebar.sidebar-hidden {
+    transform: translateX(-100%); /* Lo saca completamente de la pantalla */
+    visibility: hidden;
+  }
+
+  /* ESTADO: ABIERTO (Móvil) */
+  #accordionSidebar.sidebar-open {
+    transform: translateX(0); /* Lo mete a la pantalla */
+    visibility: visible;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.4);
+  }
+}
+
+/* --- CONFIGURACIÓN PARA PC --- */
+@media (min-width: 768px) {
+  #accordionSidebar {
+    transform: translateX(0) !important;
+    visibility: visible !important;
+    position: relative;
+    display: flex !important;
+  }
+}
+
+/* Capa para cerrar el menú al hacer clic fuera */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.1); /* Fondo oscuro semitransparente */
+  z-index: 1050; /* Por debajo del sidebar (1060) */
+  cursor: pointer;
+}

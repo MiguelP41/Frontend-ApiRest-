@@ -38,5 +38,10 @@ export class DashboardLayout {
   }
 
 
+  isSidebarToggled = false;
+
+ toggleSidebar() {
+   this.isSidebarToggled = !this.isSidebarToggled;
+ }
 
 }
