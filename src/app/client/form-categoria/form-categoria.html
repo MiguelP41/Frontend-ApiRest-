@@ -1,6 +1,6 @@
 <div class="max-w-5xl mx-auto mt-0 bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
     <div class="bg-linear-to-b from-orange-400 to-orange-600 px-6 py-4">
-        <h2 class="text-lg sm:text-xl md:text-2xl lg:text-9xl font-bold text-white flex items-center gap-2">
+        <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white flex items-center gap-2">
             <i class="fas fa-user-plus"></i> Cargar Nuevo Pago
         </h2>
         <p class="text-indigo-100 text-sm mb-0">Complete la información de su pago y adjunte el comprobante correspondiente.</p>
@@ -9,92 +9,186 @@
     <form [formGroup]="comprobanteForm" (ngSubmit)="guardarComprobante2()" class="p-8">
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <!-- SECCIÓN IDENTIFICACIÓN (CON CORRECCIÓN DE ESQUINAS) -->
             <div class="space-y-1"> 
-    <label for="clienteId" class="text-sm font-semibold text-gray-700">Identificación (Cédula/RIF)</label>
-    <div class="relative flex shadow-sm">
-        <select id="tipoDocumento" 
-            class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-700 font-bold sm:text-sm outline-none focus:ring-2 focus:ring-indigo-500 z-10"
-            (change)="tipoSeleccionado = $any($event.target).value">
-            <option value="V">V</option>
-            <option value="J">J</option>
-            <option value="G">G</option>
-        </select>
+                <label for="cedula" class="text-sm font-semibold text-gray-700 ml-1">Identificación (Cédula/RIF)</label>
+                
+                <!-- El secreto: El padre tiene el fondo Y el redondeado Y el overflow-hidden -->
+                <div class="relative flex shadow-sm border border-gray-300 rounded-xl overflow-hidden bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500 transition-all">
+                    
+                    <select id="tipoDocumento" 
+                        class="inline-flex items-center px-3 border-r border-gray-300 bg-gray-100 text-gray-700 font-bold sm:text-sm outline-none cursor-pointer">
+                        <option value="V">V</option>
+                        <option value="J">J</option>
+                        <option value="G">G</option>
+                    </select>
 
-        <input type="text" id="clienteId" formControlName="clienteId" 
-            class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 rounded-r-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none"
-            placeholder="26040803" 
-            (input)="formatearCedula($event)"
-            required>
-    </div>
-    <p *ngIf="comprobanteForm.get('clienteId')?.invalid && comprobanteForm.get('clienteId')?.touched" 
-       class="text-red-500 text-xs italic">La identificación es obligatoria.</p>
-</div>
-
-        <div class="space-y-1"> 
-    <label for="referenciaBancaria" class="text-sm font-semibold text-gray-700">Referencia</label>
-    <div class="relative">
-        <input type="text" 
-               id="referenciaBancaria" 
-               formControlName="referenciaBancaria" 
-               (input)="limpiarNoNumericos($event, 'referenciaBancaria')"
-               class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
-               placeholder="000000">
-    </div>
-    <p *ngIf="comprobanteForm.get('referenciaBancaria')?.invalid && comprobanteForm.get('referenciaBancaria')?.touched" 
-       class="text-red-500 text-xs italic">
-       Solo se permiten números en este campo.
-    </p>
-</div>    
-
-
-
-
-        </div>
-
-        
-        <div class="space-y-1">
-    <label class="text-sm font-semibold text-gray-700">Monto Cancelado</label>
-    <div class="relative max-w-116 shadow-sm">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <span class="text-gray-500 sm:text-sm"> Bs </span>
-        </div>
-        <input type="text" 
-               formControlName="monto" 
-               (input)="onMontoInput($event)"
-               class="block w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" 
-               placeholder="0.00">
-    </div>
-</div>
-
-
-
-
-
-
-        <hr class="mb-8 border-gray-200">
-
-        <h3 class="text-lg font-bold text-gray-800 mb-4">Comprobante</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            
-            <div class="p-4 border-2 border-dashed border-gray-200 rounded-xl hover:border-indigo-400 transition-colors">
-                <label class="block text-sm font-bold text-gray-600 mb-2 text-center">Foto 1</label>
-                <input type="file" (change)="onFileSelected($event, 1)" accept="image/*"
-                    class="block w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer">
+                    <!-- IMPORTANTE: bg-transparent y h-full evitan las esquinas blancas -->
+                    <input type="text" id="cedula" formControlName="cedula" 
+                        class="w-full px-4 py-2.5 bg-transparent text-gray-600 outline-none border-none focus:ring-0 h-full"
+                        placeholder="26040803" 
+                        (input)="formatearCedula($event)"
+                        required>
+                </div>
             </div>
-            
+
+            <!-- SECCIÓN REFERENCIA -->
+            <div class="space-y-1"> 
+                <label for="referencia" class="text-sm font-semibold text-gray-700 ml-1">Referencia</label>
+                <div class="relative">
+                    <input type="text" 
+                           id="referencia" 
+                           formControlName="referencia" 
+                           (input)="limpiarNoNumericos($event, 'referencia')"
+                           class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm"
+                           placeholder="000000">
+                </div>
+            </div>
+        </div>
+
+        <!-- RESTO DEL FORMULARIO CON BORDES REDONDEADOS XL PARA CONSISTENCIA -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div class="space-y-1">
+                <div class="space-y-1"> 
+                <label for="telefo_pag" class="text-sm font-semibold text-gray-700 ml-1">Telefono</label>
+                <div class="relative">
+                    <input type="text" 
+                           id="telefo_pag" 
+                           formControlName="telefo_pag" 
+                           (input)="limpiarNoNumericos($event, 'telefo_pag')"
+                           class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm"
+                           placeholder="04143262987">
+                </div>
+            </div>
+
+            </div>
+
+            <div class="space-y-1">
+                <label for="banco_ori" class="text-sm font-semibold text-gray-700 ml-1">Banco Origen</label>
+                <select id="banco_ori" 
+                        formControlName="banco_ori"
+                        class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm">
+                    <option value="" disabled selected>Seleccione un banco</option>
+                    <option value="0102">0102 - BANCO DE VENEZUELA </option>
+                    <option value="0172">0172 - BANCAMIGA</option>
+                    <option value="0108 - PROVINCIAL">0108 - PROVINCIAL</option>
+                    <option value="0134 - BANESCO">0134 - BANESCO</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div class="space-y-1">
+                <label class="text-sm font-semibold text-gray-700 ml-1">Monto Cancelado</label>
+                <div class="relative shadow-sm rounded-xl overflow-hidden">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span class="text-gray-500 sm:text-sm font-bold"> Bs </span>
+                    </div>
+                    <input type="text" 
+                           formControlName="monto" 
+                           (input)="onMontoInput($event)"
+                           class="block w-full pl-12 pr-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none" 
+                           placeholder="0.00">
+                </div>
+            </div>
+
+            <div class="space-y-1">
+                <label for="fecha_pag" class="text-sm font-semibold text-gray-700 ml-1">Fecha de Pago</label>
+                <input type="date" 
+                       id="fecha_pag" 
+                       formControlName="fecha_pag" 
+                       class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm">
+            </div>
+        </div>
+
+        <hr class="mb-8 border-gray-100">
+
+        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <i class="fas fa-camera text-indigo-500"></i> Comprobante
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="p-4 border-2 border-dashed border-gray-200 rounded-2xl hover:border-indigo-400 hover:bg-indigo-50/30 transition-all group">
+                <label class="block text-xs font-black text-indigo-600 uppercase mb-3 text-center tracking-widest">Foto 1</label>
+                <input type="file" (change)="onFileSelected($event, 1)" accept="image/*"
+                    class="block w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer">
+            </div>
         </div>
 
         <div class="flex items-center justify-end gap-4 pt-6 border-t border-gray-100">
             <button type="button" (click)="cancelarFormulario()"
-                class="px-6 py-2.5 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-800 transition-all duration-200 focus:ring-4 focus:ring-gray-100">
+                class="px-6 py-2.5 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 hover:text-gray-800 transition-all duration-200 focus:ring-4 focus:ring-gray-100">
                 Cancelar
             </button>
             <button type="submit" 
-                [disabled]="comprobanteForm.invalid || (!selectedFile1 && !selectedFile2 && !selectedFile3)"
-                class="px-8 py-2.5 text-sm font-bold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-indigo-200 transition-all duration-200">
-                Guardar Registro
+                [disabled]="comprobanteForm.invalid || !selectedFile1"
+                class="px-8 py-2.5 text-sm font-bold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-indigo-200 transition-all duration-200">
+                Guardar 
             </button>
         </div>
     </form>
 </div>
+
+
+<!-- MODAL DE ÉXITO -->
+<div *ngIf="mostrarModalSuccess" 
+     class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-indigo-200/10 backdrop-blur-md transition-all">
+    
+    <!-- Contenedor con escala animada -->
+    <div class="bg-white rounded-[2.5rem] shadow-2xl max-w-sm w-full overflow-hidden border border-gray-100 animate-in zoom-in duration-300">
+        
+        <!-- Cabecera con degradado naranja (como tu form) -->
+        <div class="bg-linear-to-br from-orange-400 to-orange-600 p-10 text-center relative">
+            <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-white/20 shadow-lg mb-2 backdrop-blur-sm">
+                <i class="fas fa-check text-4xl text-white"></i>
+            </div>
+            <!-- Círculos decorativos de fondo -->
+            <div class="absolute top-[-10%] right-[-10%] h-24 w-24 bg-white/10 rounded-full"></div>
+        </div>
+
+        <div class="p-8 text-center">
+          <h3 class="text-2xl font-bold text-gray-800 mb-2">¡Guardado!</h3>
+          <p class="text-gray-500 mb-8 leading-relaxed">
+            Su pago fue validado correctamente en el sistema.
+          </p>
+          
+        <button (click)="cerrarExito()" type="button"
+            class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-[20px] !rounded-[20px] transition-all shadow-lg shadow-indigo-100 active:scale-95 flex items-center justify-center gap-2 border-none outline-none">
+            <span>Entendido</span>
+            <i class="fas fa-arrow-right text-sm"></i>
+        </button>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="mostrarModalError" 
+     class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-indigo-200/10 backdrop-blur-md transition-all">
+    
+    <!-- Contenedor con escala animada -->
+    <div class="bg-white rounded-[2.5rem] shadow-2xl max-w-sm w-full overflow-hidden border border-gray-100 animate-in zoom-in duration-300">
+        
+        <!-- Cabecera con degradado naranja (como tu form) -->
+        <div class="bg-linear-to-br from-orange-400 to-orange-600 p-10 text-center relative">
+            <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-white/20 shadow-lg mb-2 backdrop-blur-sm">
+                <i class="fas fa-check text-4xl text-white"></i>
+            </div>
+            <!-- Círculos decorativos de fondo -->
+            <div class="absolute top-[-10%] right-[-10%] h-24 w-24 bg-white/10 rounded-full"></div>
+        </div>
+
+        <div class="p-8 text-center">
+          <h3 class="text-2xl font-bold text-gray-800 mb-2">¡Error!</h3>
+          <p class="text-gray-500 mb-8 leading-relaxed">
+            {{ mensajeErrorBackend }}
+          </p>
+          
+        <button (click)="cerrarError()" type="button"
+            class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-[20px] !rounded-[20px] transition-all shadow-lg shadow-indigo-100 active:scale-95 flex items-center justify-center gap-2 border-none outline-none">
+            <span>Entendido</span>
+            <i class="fas fa-arrow-right text-sm"></i>
+        </button>
+        </div>
+    </div>
+</div>
+<div>
 

@@ -1,4 +1,4 @@
- import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common'; 
 import { Comprobantes } from '../../services/comprobantes'; 
@@ -16,8 +16,10 @@ export class FormCategoriaComponent implements OnInit {
 
   comprobanteForm: FormGroup;
   
-  // 🆕 ESTA ES LA PROPIEDAD QUE TE FALTABA
+  mostrarModalError : boolean = false;
+  mostrarModalSuccess: boolean = false;
   tipoSeleccionado: string = 'V'; 
+  mensajeErrorBackend: string = '';
 
   @Output() comprobanteGuardado = new EventEmitter<void>(); 
 
@@ -30,10 +32,12 @@ export class FormCategoriaComponent implements OnInit {
     private _comprobantes: Comprobantes 
   ) {
     this.comprobanteForm = this.fb.group({
-      // Agregamos una validación de patrón para que solo acepte números
-      clienteId: ['', [Validators.required, Validators.maxLength(50), Validators.pattern("^[0-9]*$")]],
-      referenciaBancaria: ['', [Validators.required, Validators.maxLength(50),Validators.pattern("^[0-9]*$")]],
+      cedula: ['', [Validators.required, Validators.maxLength(50), Validators.pattern("^[0-9]*$")]],
+      referencia: ['', [Validators.required, Validators.maxLength(50),Validators.pattern("^[0-9]*$")]],
       monto: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^-?\d*\.?\d*$/)]],
+      banco_ori: ['', Validators.required],
+      telefo_pag: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
+      fecha_pag: ['', Validators.required]
     });
   }
 
@@ -61,6 +65,7 @@ export class FormCategoriaComponent implements OnInit {
    const nuevoComprobante = {
     ...formValues,
    // nombre: `${this.tipoSeleccionado}-${formValues.nombre}`
+    tipoDocumento: this.tipoSeleccionado,
       };
 
     formData.append('comprobante', JSON.stringify(nuevoComprobante));
@@ -86,17 +91,29 @@ export class FormCategoriaComponent implements OnInit {
 
     this._comprobantes.crearComprobanteConImagenes(formData)
       .subscribe({
-        next: () => {
-          alert('Comprobante guardada con éxito!');
-          this.comprobanteForm.reset();
-          this.selectedFile1 = null;
-          this.selectedFile2 = null;
-          this.selectedFile3 = null;
-          this.comprobanteGuardado.emit();
+        next: (res: any) => {
+         
+          if (res.code === 1010 || res.data === null) {
+            this.mensajeErrorBackend = res.message; // "No se pudo validar el movimiento..."
+            console.log('Mensaje de error capturado:', this.mensajeErrorBackend);
+            this.mostrarModalError = true;
+          } else {
+            // ÉXITO REAL
+            this.mostrarModalSuccess = true;
+            this.selectedFile2 = null;
+            this.selectedFile3 = null;
+          }
+
         },
         error: (err) => {
-          console.error('Error al guardar:', err);
-          alert('Hubo un error al guardar la categoría.');
+          console.log('Objeto de error completo:', err);
+          this.mostrarModalError = true;
+          if (err.error && err.error.metadata && err.error.metadata.length > 0) {
+            this.mensajeErrorBackend = err.error.metadata[0].date;
+          } else {
+            // Mensaje de respaldo por si la estructura cambia
+            this.mensajeErrorBackend = 'Ocurrió un error inesperado en la validación.';
+          }
         }
       });
   }
@@ -143,4 +160,22 @@ limpiarNoNumericos(event: any, controlName: string) {
   // Actualiza el formulario. Esto hará que tus Validators.pattern sean felices.
   this.comprobanteForm.get(controlName)?.setValue(valorLimpio, { emitEvent: true });
 }
+
+
+// 2. Método para cerrar el modal y resetear
+    cerrarExito() {
+      this.mostrarModalSuccess = false; // Aquí se cierra
+      this.comprobanteForm.reset();       // Aquí se limpia el form
+      this.selectedFile1 = null;        // Limpias archivos
+      this.comprobanteGuardado.emit();    // Recargas la tabla
+    }
+
+
+    cerrarError() {
+      this.mostrarModalError = false; // Aquí se cierra
+     // this.comprobanteForm.reset();       // Aquí se limpia el form
+     // this.selectedFile1 = null;        // Limpias archivos
+     // this.comprobanteGuardado.emit();    // Recargas la tabla
+    }
+
 }

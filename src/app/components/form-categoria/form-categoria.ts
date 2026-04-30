@@ -14,6 +14,9 @@
 
   export class FormCategoriaComponent implements OnInit { // Implementa OnInit para usar el hook
 
+    mostrarModalSuccess: boolean = false;
+     mostrarModalError: boolean = false;
+    tipoSeleccionado: string = 'V';
     categoriaForm: FormGroup;
     
     @Output() categoriaGuardada = new EventEmitter<void>(); 
@@ -29,26 +32,53 @@
         nombre: ['', [Validators.required, Validators.maxLength(50)]],
         apellidos: ['', [Validators.required, Validators.maxLength(50)]],
         correo: ['', [Validators.required, Validators.maxLength(50)]],
-        descripcion: ['', [Validators.required, Validators.maxLength(255)]]
+        descripcion: ['', [Validators.required, Validators.maxLength(255)]],
+        tipo_docu: ['', [Validators.required, Validators.maxLength(50)]],
+        documento: ['', [Validators.required, Validators.maxLength(50)]]
         
       });
     }
 
     ngOnInit(): void {}
 
+
+    // 2. Método para cerrar el modal y resetear
+    cerrarExito() {
+      this.mostrarModalSuccess = false; // Aquí se cierra
+      this.categoriaForm.reset();       // Aquí se limpia el form
+      this.selectedFile1 = null;        // Limpias archivos
+      this.categoriaGuardada.emit();    // Recargas la tabla
+    }
+
+
+    cerrarError() {
+      this.mostrarModalError = false; // Aquí se cierra
+      this.categoriaForm.reset();       // Aquí se limpia el form
+      this.selectedFile1 = null;        // Limpias archivos
+      this.categoriaGuardada.emit();    // Recargas la tabla
+    }
+
+    formatearCedula(event: any) {
+      const input = event.target as HTMLInputElement;
+      // Remueve cualquier caracter que no sea un número
+      input.value = input.value.replace(/[^0-9]/g, '');
+      // Actualiza el valor en el formulario
+      this.categoriaForm.get('documento')?.setValue(input.value, { emitEvent: false });
+    }
+
     guardarCategoria() {
       if (this.categoriaForm.invalid) {
         alert('Por favor, revisa los campos requeridos.');
         return;
       }
-      
+
       const nuevaCategoria = this.categoriaForm.value;
-      
+
       this._categorias.crearCategoria(nuevaCategoria)
         .subscribe({
           next: (any) => {
             alert('Categoría guardada con éxito!');
-            this.categoriaForm.reset(); 
+            this.categoriaForm.reset();
             this.categoriaGuardada.emit(); // Notifica a Body para recargar la tabla
           },
           error: (err) => {
@@ -58,9 +88,11 @@
         });
     }
 
-    selectedFile1: File | null = null; 
+    selectedFile1: File | null = null;
     selectedFile2: File | null = null;
     selectedFile3: File | null = null;
+
+
 
     guardarCategoria2() {
       if (this.categoriaForm.invalid) {
@@ -69,68 +101,57 @@
       }
 
       const formData = new FormData();
-      
       const nuevaCategoria = this.categoriaForm.value;
-
 
       formData.append('categoria', JSON.stringify(nuevaCategoria));
 
-    if (this.selectedFile1) {
+      if (this.selectedFile1) {
         formData.append('imagen1', this.selectedFile1, this.selectedFile1.name);
-    }
-    if (this.selectedFile2) {
-        formData.append('imagen2', this.selectedFile2, this.selectedFile2.name);
-    }else {
-      formData.append('imagen2', ''); 
-    }
+      }
 
 
-    if (this.selectedFile3) {
-        formData.append('imagen3', this.selectedFile3, this.selectedFile3.name);
-    }else {
-      formData.append('imagen3', ''); 
-    }
-
-      
       this._categorias.crearCategoriaConImagenes(formData)
         .subscribe({
-            next: () => { // Ya no es necesario recibir 'any' si no lo usas
-                alert('Categoría guardada con éxito!');
-                this.categoriaForm.reset();
-                this.selectedFile = null; // Limpiar la referencia al archivo
-                this.categoriaGuardada.emit(); // Notifica para recargar
-            },
-            error: (err) => {
-                console.error('Error al guardar:', err);
-                alert('Hubo un error al guardar la categoría.');
-            }
+          next: () => {
+            this.mostrarModalSuccess = true;
+            //alert('Categoría guardada con éxito!');
+          //  this.categoriaForm.reset();
+            this.selectedFile = null; // Limpiar la referencia al archivo
+          //  this.categoriaGuardada.emit(); // Notifica para recargar
+          },
+          error: (err) => {
+
+            this.mostrarModalError = true;
+           // console.error('Error al guardar:', err);
+           // alert('Hubo un error al guardar la categoría.');
+          }
         });
     }
-    
+
 
     cancelarFormulario() {
-    this.categoriaForm.reset();
-    // Llama a la propiedad de este COMPONENTE. Si da error, solo REINICIA 'ng serve'.
-    this.categoriaGuardada.emit(); 
-  }
-
-
-  selectedFile: File | null = null;
-
-  onFileSelected(event: any, imagenIndex: number) {
-    const file = event.target.files[0];
-    
-    if (!file) return;
-
-    // Asigna el archivo a la propiedad correcta
-    if (imagenIndex === 1) {
-        this.selectedFile1 = file;
-    } else if (imagenIndex === 2) {
-        this.selectedFile2 = file;
-    } else if (imagenIndex === 3) {
-        this.selectedFile3 = file;
+      this.categoriaForm.reset();
+      // Llama a la propiedad de este COMPONENTE. Si da error, solo REINICIA 'ng serve'.
+      this.categoriaGuardada.emit();
     }
-}
+
+
+    selectedFile: File | null = null;
+
+    onFileSelected(event: any, imagenIndex: number) {
+      const file = event.target.files[0];
+
+      if (!file) return;
+
+      // Asigna el archivo a la propiedad correcta
+      if (imagenIndex === 1) {
+        this.selectedFile1 = file;
+      } else if (imagenIndex === 2) {
+        this.selectedFile2 = file;
+      } else if (imagenIndex === 3) {
+        this.selectedFile3 = file;
+      }
+    }
 
 
 

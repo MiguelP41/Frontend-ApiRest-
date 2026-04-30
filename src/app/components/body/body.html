@@ -1,8 +1,6 @@
 <div class="container-fluid">
 
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Módulo Administrativo</h1>
-    </div>
+
 
     <div *ngIf="mostrarFormulario" class="mb-4">
         <app-form-categoria (categoriaGuardada)="manejarCategoriaGuardada()">
@@ -91,7 +89,7 @@
         <div class="modal-dialog" style="z-index: 1050; margin: 2.75rem auto;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Detalles de la Historia #{{ registroSeleccionado?.id }}</h5>
+                    <h5 class="modal-title">Detalles del Cliente #{{ registroSeleccionado?.id }}</h5>
                     <button type="button" class="close" (click)="cerrarModal()" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
