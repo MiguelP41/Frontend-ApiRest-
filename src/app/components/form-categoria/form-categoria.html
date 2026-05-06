@@ -113,13 +113,13 @@
         <div class="flex flex-col sm:flex-row items-center justify-end gap-3 pt-6 border-t border-gray-100 px-4 pb-4">
             <button type="button" 
                 (click)="cancelarFormulario()"
-                class="px-6 py-2.5 text-sm font-medium text-gray-600 bg-white rounded-lg border border-gray-300 rounded-xl hover:bg-gray-50 hover:text-gray-800 transition-all duration-200 focus:ring-4 focus:ring-gray-100">
+                class="w-full sm:w-auto order-2 sm:order-1 px-6 py-2.5 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 hover:text-gray-800 transition-all duration-200 focus:ring-4 focus:ring-gray-100">
                 Cancelar
             </button>
 
             <button type="submit" 
                 [disabled]="categoriaForm.invalid || (!selectedFile1)"
-                class="flex items-center bg-[#FF8A00] hover:bg-[#E67C00] text-white px-10 py-2.5 rounded-lg transition-all duration-200 active:shadow-[inset_0_4px_6px_rgba(0,0,0,0.2)] active:scale-[0.98] border-none">
+                class="w-full sm:w-auto order-1 sm:order-2 px-8 py-2.5 text-sm font-bold text-white bg-orange-500 rounded-xl hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-orange-200 transition-all duration-200">
                 Guardar 
             </button>
         </div>
