@@ -1,4 +1,4 @@
-<div class="mx-6 md:mx-auto max-w-5xl mt-6 md:mt-12  bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
+<div class="mx-6 max-w-5xl mx-auto mt-12 bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
     <!-- Encabezado -->
     <div class="bg-linear-to-b from-orange-400 to-orange-600 px-6 py-4">
         <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white flex items-center gap-2">
@@ -7,7 +7,7 @@
         <p class="text-orange-50 text-sm mb-0 opacity-90">Complete la información personal y adjunte las imagenes correspondientes.</p>
     </div>
 
-    <form [formGroup]="categoriaForm" (ngSubmit)="guardarCategoria2()" class="p-8">
+    <form [formGroup]="categoriaForm" (ngSubmit)="guardarCategoria2()" class="p-8 lg:p-10 space-y-8">
         
         <!-- Fila 1: Nombres, Apellidos y Edad -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
