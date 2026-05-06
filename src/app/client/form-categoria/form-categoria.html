@@ -120,10 +120,9 @@
                 class="px-6 py-2.5 text-sm font-medium text-gray-600 bg-white rounded-lg border border-gray-300 rounded-xl hover:bg-gray-50 hover:text-gray-800 transition-all duration-200 focus:ring-4 focus:ring-gray-100">
                 Cancelar
             </button>
-            <button type="submit" 
-                [disabled]="comprobanteForm.invalid || !selectedFile1 || isLoading()"
-                class="flex items-center bg-[#FF8A00] hover:bg-[#E67C00] text-white px-10 py-2.5 rounded-lg border-none">             
-                Guardar 
+            <button type="submit" [disabled]="comprobanteForm.invalid || !selectedFile1 || isLoading()" class="flex items-center bg-[#FF8A00] hover:bg-[#E67C00] text-white px-10 py-2.5 rounded-lg border-none 
+                       disabled:opacity-50 disabled:pointer-events-none">
+                Guardar
             </button>
         </div>
     </form>
