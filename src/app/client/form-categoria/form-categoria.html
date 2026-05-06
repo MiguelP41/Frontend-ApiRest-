@@ -1,9 +1,9 @@
-<div class="max-w-5xl mx-auto mt-0 bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
+<div class="max-w-5xl mx-auto mt-0 mb-8 bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
     <div class="bg-linear-to-b from-orange-400 to-orange-600 px-6 py-4">
         <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white flex items-center gap-2">
             <i class="fas fa-user-plus"></i> Cargar Nuevo Pago
         </h2>
-        <p class="text-indigo-100 text-sm mb-0">Complete la información de su pago y adjunte el comprobante correspondiente.</p>
+        <p class="text-indigo-100 text-sm mb-6">Complete la información de su pago y adjunte el comprobante correspondiente.</p>
     </div>
 
     <form [formGroup]="comprobanteForm" (ngSubmit)="guardarComprobante2()" class="p-8">
@@ -116,12 +116,12 @@
 
         <div class="flex items-center justify-end gap-4 pt-6 border-t border-gray-100">
             <button type="button" (click)="cancelarFormulario()"
-                class="px-6 py-2.5 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 hover:text-gray-800 transition-all duration-200 focus:ring-4 focus:ring-gray-100">
+                class="px-6 py-2.5 text-sm font-medium text-gray-600 bg-white rounded-lg border border-gray-300 rounded-xl hover:bg-gray-50 hover:text-gray-800 transition-all duration-200 focus:ring-4 focus:ring-gray-100">
                 Cancelar
             </button>
             <button type="submit" 
-                [disabled]="comprobanteForm.invalid || !selectedFile1"
-                class="px-8 py-2.5 text-sm font-bold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-indigo-200 transition-all duration-200">
+                [disabled]="comprobanteForm.invalid || !selectedFile1 || isLoading()"
+                class="flex items-center bg-[#FF8A00] hover:bg-[#E67C00] text-white px-10 py-2.5 rounded-lg transition-all duration-200 active:shadow-[inset_0_4px_6px_rgba(0,0,0,0.2)] active:scale-[0.98] border-none">             
                 Guardar 
             </button>
         </div>

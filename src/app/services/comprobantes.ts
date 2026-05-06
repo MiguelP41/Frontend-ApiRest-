@@ -8,12 +8,12 @@ import { map } from 'rxjs/operators';
 })
 export class Comprobantes {
 
-
+  urlConImagenes: string = 'https://apirest-books.onrender.com/v1/comprobante-con-imagenes';
   url: any = 'https://apirest-books.onrender.com/v1/comprobantes';
   //url: any = 'http://localhost:8080/v1/comprobantes';
-  //url: any ='d3id4ip19bf03j.cloudfront.net/v1/categorias';
-  urlConImagenes: string = 'https://apirest-books.onrender.com/v1/comprobante-con-imagenes';
   //urlConImagenes: string = 'http://localhost:8080/v1/comprobante-con-imagenes';
+  //url: any ='d3id4ip19bf03j.cloudfront.net/v1/categorias';
+
 
   constructor(private http: HttpClient) { }
 

@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-dashboard-layout-Cliente',
   standalone: true,
-  imports: [RouterOutlet, Navbar, CommonModule, Body],
+  imports: [RouterOutlet, Navbar, CommonModule],
   templateUrl: './dashboard-layout-cliente.html',
   styleUrl: './dashboard-layout-cliente.css'
 })

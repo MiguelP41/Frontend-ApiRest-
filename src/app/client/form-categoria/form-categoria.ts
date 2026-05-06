@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common'; 
 import { Comprobantes } from '../../services/comprobantes'; 
@@ -14,6 +14,8 @@ import { Comprobantes } from '../../services/comprobantes';
 
 export class FormCategoriaComponent implements OnInit {
 
+
+  isLoading = signal(false);
   comprobanteForm: FormGroup;
   
   mostrarModalError : boolean = false;
@@ -89,6 +91,8 @@ export class FormCategoriaComponent implements OnInit {
       formData.append('imagen3', blobVacio, 'vacio.bin');
     }
 
+
+    this.isLoading.set(true);
     this._comprobantes.crearComprobanteConImagenes(formData)
       .subscribe({
         next: (res: any) => {
@@ -97,11 +101,13 @@ export class FormCategoriaComponent implements OnInit {
             this.mensajeErrorBackend = res.message; // "No se pudo validar el movimiento..."
             console.log('Mensaje de error capturado:', this.mensajeErrorBackend);
             this.mostrarModalError = true;
+            
           } else {
             // ÉXITO REAL
             this.mostrarModalSuccess = true;
             this.selectedFile2 = null;
             this.selectedFile3 = null;
+            
           }
 
         },
@@ -166,12 +172,14 @@ limpiarNoNumericos(event: any, controlName: string) {
     cerrarExito() {
       this.mostrarModalSuccess = false; // Aquí se cierra
       this.comprobanteForm.reset();       // Aquí se limpia el form
-      this.selectedFile1 = null;        // Limpias archivos
+      this.selectedFile1 = null;  
+       this.isLoading.set(false);      // Limpias archivos
       this.comprobanteGuardado.emit();    // Recargas la tabla
     }
 
 
     cerrarError() {
+       this.isLoading.set(false);
       this.mostrarModalError = false; // Aquí se cierra
      // this.comprobanteForm.reset();       // Aquí se limpia el form
      // this.selectedFile1 = null;        // Limpias archivos

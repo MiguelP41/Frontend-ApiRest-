@@ -11,12 +11,12 @@ import { map } from 'rxjs/operators';
 
 export class Categorias {
 
+ urlConImagenes: string = 'https://apirest-books.onrender.com/v1/categorias-con-imagenes';
  url: any = 'https://apirest-books.onrender.com/v1/categorias';
  //url: any = 'http://localhost:8080/v1/categorias';
-//url: any ='d3id4ip19bf03j.cloudfront.net/v1/categorias';
  //urlConImagenes: string = 'http://localhost:8080/v1/categorias-con-imagenes';
- urlConImagenes: string = 'https://apirest-books.onrender.com/v1/categorias-con-imagenes';
-
+ //url: any ='d3id4ip19bf03j.cloudfront.net/v1/categorias';
+ 
 
   constructor(private http: HttpClient){}
   

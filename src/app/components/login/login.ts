@@ -30,7 +30,8 @@ export class LoginComponent {
   // Formulario Reactivo (Propiedad pública)
   loginForm = new FormGroup({
     username: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required)
+    password: new FormControl(''),
+    tipo_docu: new FormControl('V', Validators.required)
   });
 
   // 2. Eliminamos el constructor, ya que las inyecciones se hicieron arriba
@@ -46,12 +47,13 @@ export class LoginComponent {
     }
     
     // Obtener los valores (uso seguro de getRawValue en formularios tipados)
-    const { username, password } = this.loginForm.getRawValue();
+    const { tipo_docu, username, password } = this.loginForm.getRawValue();
+    const usernameCompleto = tipo_docu! + username!;
 
     this.isLoading.set(true);
     this.errorMessage.set(null);
 
-    this.authService.login(username!, password!).subscribe({
+    this.authService.login(usernameCompleto!, password!).subscribe({
       next:() => {
         this.isLoading.set(false);
         const userRole = this.authService.getRole();
@@ -61,7 +63,8 @@ export class LoginComponent {
           this.router.navigate(['/Dasboard']);
         } else if (userRole === 'ROLE_Empleado'){
           console.log('Redirigiendo a Dasboard Cliente');
-          this.router.navigate(['/Client']);
+           this.router.navigate(['/Client/Dasboard/nuevo-pago']);
+          //this.router.navigate(['/Client']);
           //this.authService.logout();
           
         } else {     
@@ -79,6 +82,18 @@ export class LoginComponent {
         console.error('Login Failed', err);
       }
     });
+  
+  
+  
+  
+  }
+
+  formatearCedula(event: any) {
+    const input = event.target as HTMLInputElement;
+    // Remueve cualquier caracter que no sea un número
+    input.value = input.value.replace(/[^0-9]/g, '');
+    // Actualiza el valor en el formulario
+    this.loginForm.get('username')?.setValue(input.value, { emitEvent: false });
   }
 
 
