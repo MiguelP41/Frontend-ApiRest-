@@ -29,7 +29,10 @@ export class DashboardLayoutCliente {
     console.log('Logout desde Layout. Navegando a /login.');
     
     // 1. Limpiar el token (o llamar a un servicio de AuthService para hacerlo)
-    localStorage.removeItem('jwtToken');
+      localStorage.removeItem('jwtToken');
+      localStorage.removeItem('username');
+      localStorage.removeItem('rol');
+      
     
     // 2. Navegar a la ruta de login
     this.router.navigate(['/login']);

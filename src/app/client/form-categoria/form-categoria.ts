@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common'; 
 import { Comprobantes } from '../../services/comprobantes'; 
+import { Auth } from '../../services/auth'; 
 
 @Component({
   selector: 'app-form-comprobante',
@@ -31,7 +32,8 @@ export class FormCategoriaComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder, 
-    private _comprobantes: Comprobantes 
+    private _comprobantes: Comprobantes,
+    private _auth: Auth
   ) {
     this.comprobanteForm = this.fb.group({
       cedula: ['', [Validators.required, Validators.maxLength(50), Validators.pattern("^[0-9]*$")]],
@@ -39,7 +41,8 @@ export class FormCategoriaComponent implements OnInit {
       monto: ['', [Validators.required, Validators.maxLength(50), Validators.pattern(/^-?\d*\.?\d*$/)]],
       banco_ori: ['', Validators.required],
       telefo_pag: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
-      fecha_pag: ['', Validators.required]
+      fecha_pag: ['', Validators.required],
+      planId: ['', Validators.required]
     });
   }
 
@@ -60,6 +63,7 @@ export class FormCategoriaComponent implements OnInit {
       return;
     }
 
+    const usuario = this._auth.getUser();
     const formData = new FormData();
     const formValues = this.comprobanteForm.value;
 
@@ -68,7 +72,13 @@ export class FormCategoriaComponent implements OnInit {
     ...formValues,
    // nombre: `${this.tipoSeleccionado}-${formValues.nombre}`
     tipoDocumento: this.tipoSeleccionado,
+    usuario: usuario
       };
+
+      console.log('Objeto que se enviará al backend:', nuevoComprobante);
+      formData.append('comprobante', JSON.stringify(nuevoComprobante));
+
+
 
     formData.append('comprobante', JSON.stringify(nuevoComprobante));
 

@@ -19,6 +19,8 @@ export const routes: Routes = [
     canActivate : [authGuard],
   },
 
+  
+
   /*{
     path:'prueba',
     loadComponent:()=> import('./client/dashboard-layout-cliente/dashboard-layout-cliente').then(m => m.DashboardLayoutCliente),
@@ -40,15 +42,21 @@ export const routes: Routes = [
       loadComponent: () => import('./components/dashboard-layout/dashboard-layout').then(m => m.DashboardLayout),
       canActivate : [authGuard]
     },
-    {
+      {
         path: 'ClientesAdmin', // Ruta de clientes (localhost:4200/Dasboard/ClientesAdmin)
         loadComponent: () => import('./components/dashboard-layout2/dashboard-layout2').then(m => m.DashboardLayout),
       },
 
       {
+        path: 'membresias', // La URL será: localhost:4200/Dasboard/membresias
+        loadComponent: () => import('./components/membresias/membresias').then(m => m.MembresiasComponent),
+      },
+
+
+      {
       path: '', // <--- Esto significa: "Si la ruta es solo /Dasboard..."
       loadComponent: () => import('./components/body/body').then(m => m.Body) // "...entonces muestra el Body"
-    },
+      },
     
   ]
   },

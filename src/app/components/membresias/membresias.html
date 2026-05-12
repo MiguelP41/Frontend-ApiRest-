@@ -1,0 +1,94 @@
+<div class="p-6 bg-gray-50 min-h-screen">
+  <div class="max-w-6xl mx-auto">
+    
+    <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <h3 class="text-2xl font-bold text-gray-800">Panel de Membresías</h3>
+        <p class="text-gray-500 text-sm">Gestiona y filtra los estados de tus clientes del Gym.</p>
+      </div>
+      <div class="flex gap-4">
+        <div class="bg-white p-3 rounded-lg shadow-sm border border-gray-200 min-w-[120px]">
+          <p class="text-xs text-gray-400 uppercase font-semibold">Total Vista</p>
+          <p class="text-xl font-bold text-blue-600">{{ membresiasFiltradas.length }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Estado</label>
+          <select [(ngModel)]="estadoFiltro" (change)="aplicarFiltros()"
+            class="w-full bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none transition-all">
+            <option value="">Todos los estados</option>
+            <option value="ACTIVA">🟢 ACTIVA</option>
+            <option value="VENCIDA">🔴 VENCIDA</option>
+            <option value="PAGADA">🟡 PAGADA</option>
+          </select>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Semana del Mes</label>
+          <select [(ngModel)]="semanaFiltro" (change)="aplicarFiltros()"
+            class="w-full bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none transition-all">
+            <option value="">Cualquier semana</option>
+            <option value="1">Semana 1 </option>
+            <option value="2">Semana 2 </option>
+            <option value="3">Semana 3 </option>
+            <option value="4">Semana 4 </option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <table class="w-full text-sm text-left">
+        <thead class="bg-gray-50 border-b border-gray-200">
+          <tr>
+            <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">ID</th>
+            <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Cliente</th>
+            <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Plan contratado</th>
+            <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Vigencia</th>
+            <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider text-center">Estado</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr *ngFor="let m of membresiasFiltradas" class="hover:bg-blue-50/50 transition-colors odd:bg-white even:bg-gray-50/80">
+            <td class="px-6 py-4 font-mono text-gray-400 text-xs">#{{ m.id }}</td>
+            <td class="px-6 py-4">
+              <div class="font-medium text-gray-900">ID Cliente: {{ m.clienteId }}</div>
+            </td>
+            <td class="px-6 py-4">
+              <span class="text-gray-700 font-semibold">{{ m.nombrePlan }}</span>
+            </td>
+            <td class="px-6 py-4">
+              <div class="text-xs text-gray-500">Desde: {{ m.fechaInicio }}</div>
+              <div class="text-xs text-gray-500">Hasta: {{ m.fechaFin }}</div>
+            </td>
+            <td class="px-6 py-4 text-center">
+              <span [ngClass]="{
+                'bg-green-100 text-green-700 border-green-200': m.estado === 'ACTIVA',
+                'bg-red-100 text-red-700 border-red-200': m.estado === 'VENCIDA',
+                'bg-yellow-100 text-yellow-700 border-yellow-200': m.estado === 'PAGADA'
+              }" class="px-3 py-1 rounded-full text-[10px] font-bold border uppercase tracking-tighter">
+                {{ m.estado }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="membresiasFiltradas.length === 0" class="p-10 text-center">
+        <div class="text-gray-300 mb-2">
+          <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="9.172 9.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <p class="text-gray-500 font-medium">No se encontraron membresías con esos filtros.</p>
+      </div>
+    </div>
+
+  </div>
+</div>

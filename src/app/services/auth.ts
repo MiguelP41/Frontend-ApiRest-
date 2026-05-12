@@ -20,6 +20,7 @@ export class Auth {
   private LOGIN_URL ='https://apirest-books.onrender.com/v1/authenticate';
   private tokenKey = 'jwtToken';
   private roleKey = 'rol';
+  private userKey = 'username';
 
   constructor (private httpClient:HttpClient, private router: Router){}
 
@@ -35,6 +36,8 @@ export class Auth {
             this.setRole(response.rol); 
                // console.log("Token:", response.token);
                // console.log("Rol:", response.rol);
+
+            this.setUser(user); 
           
           }
 
@@ -82,9 +85,20 @@ export class Auth {
 
     //Metodo cerrar sesion
     logout(): void{
+      localStorage.removeItem(this.userKey);
       localStorage.removeItem(this.tokenKey);
       localStorage.removeItem(this.roleKey);
       this.router.navigate(['/login']);
     }
+
+  // Método privado para guardar
+  private setUser(user: string): void {
+    localStorage.setItem(this.userKey, user);
+  }
+
+  // Método público para recuperar
+  public getUser(): string | null {
+    return localStorage.getItem(this.userKey);
+  }
 
 }

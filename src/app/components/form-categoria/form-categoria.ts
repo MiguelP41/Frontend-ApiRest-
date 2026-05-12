@@ -33,7 +33,7 @@
         apellidos: ['', [Validators.required, Validators.maxLength(50)]],
         correo: ['', [Validators.required, Validators.maxLength(50)]],
         descripcion: ['', [Validators.required, Validators.maxLength(255)]],
-        tipo_docu: ['', [Validators.required, Validators.maxLength(50)]],
+        tipo_docu: ['V', [Validators.required, Validators.maxLength(50)]],
         documento: ['', [Validators.required, Validators.maxLength(50)]]
         
       });

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, signal, output, inject} from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, output, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Auth } from '../../services/auth';
 import { CommonModule } from '@angular/common';
@@ -8,17 +8,17 @@ import { RouterOutlet, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  standalone: true, 
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './login.html', 
-  styleUrl: './login.css', 
+  templateUrl: './login.html',
+  styleUrl: './login.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class LoginComponent {
-  
+
   loginSuccess = output<void>();
-  
+
   // 1. INYECCIÓN MODERNA: Usamos inject() para todos los servicios
   private router = inject(Router);
   private authService = inject(Auth); // <--- CAMBIO CLAVE
@@ -36,16 +36,16 @@ export class LoginComponent {
 
   // 2. Eliminamos el constructor, ya que las inyecciones se hicieron arriba
   // constructor(private authService: Auth) {} 
-  
+
   // Usamos un constructor vacío si no hay lógica, o simplemente lo eliminamos
-  constructor() {} 
+  constructor() { }
 
   login(): void {
     if (this.loginForm.invalid) {
       this.errorMessage.set('Por favor, ingresa tu usuario y contraseña.');
       return;
     }
-    
+
     // Obtener los valores (uso seguro de getRawValue en formularios tipados)
     const { tipo_docu, username, password } = this.loginForm.getRawValue();
     const usernameCompleto = tipo_docu! + username!;
@@ -54,25 +54,25 @@ export class LoginComponent {
     this.errorMessage.set(null);
 
     this.authService.login(usernameCompleto!, password!).subscribe({
-      next:() => {
+      next: () => {
         this.isLoading.set(false);
         const userRole = this.authService.getRole();
 
-        if (userRole === 'ROLE_Jefe'){
+        if (userRole === 'ROLE_Jefe') {
           console.log('Redirigiendo a Dasboard Administrativo');
           this.router.navigate(['/Dasboard']);
-        } else if (userRole === 'ROLE_Empleado'){
+        } else if (userRole === 'ROLE_Empleado') {
           console.log('Redirigiendo a Dasboard Cliente');
-           this.router.navigate(['/Client/Dasboard/nuevo-pago']);
+          this.router.navigate(['/Client/Dasboard/nuevo-pago']);
           //this.router.navigate(['/Client']);
           //this.authService.logout();
-          
-        } else {     
+
+        } else {
           this.router.navigate(['/login']);
         }
-        
-        
-        
+
+
+
         console.log('Login exitoso. Cambiando a vista de aplicación.');
         //this.router.navigate(['/Dasboard']);
       },
@@ -82,10 +82,10 @@ export class LoginComponent {
         console.error('Login Failed', err);
       }
     });
-  
-  
-  
-  
+
+
+
+
   }
 
   formatearCedula(event: any) {
@@ -98,19 +98,19 @@ export class LoginComponent {
 
 
 
- //login(): void {
-    //this.errorMessage = null;
- //   this.authService.login(this.user, this.password).subscribe({
- //   next:() => {
- //         console.log('Login exitoso. Cambiando a vista de aplicación.');
- //         this.router.navigate(['/Dasboard']);
-          //this.loginSuccess.emit();
- //     },
- //    error: (err) => {
-       // this.errorMessage = 'Credenciales incorrectas.';
- //       console.error('Login Failed', err);
- //     }
- //   })
-// }
+  //login(): void {
+  //this.errorMessage = null;
+  //   this.authService.login(this.user, this.password).subscribe({
+  //   next:() => {
+  //         console.log('Login exitoso. Cambiando a vista de aplicación.');
+  //         this.router.navigate(['/Dasboard']);
+  //this.loginSuccess.emit();
+  //     },
+  //    error: (err) => {
+  // this.errorMessage = 'Credenciales incorrectas.';
+  //       console.error('Login Failed', err);
+  //     }
+  //   })
+  // }
 
 }
