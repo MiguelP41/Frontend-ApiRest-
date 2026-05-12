@@ -6,8 +6,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class MembresiaService {
-  // La URL de tu Postman
-  private apiUrl = 'http://localhost:8080/v1/membresias';
+  // La URL de tu Postman  
+  //private apiUrl = 'http://localhost:8080/v1/membresias';
+  private apiUrl = 'https://apirest-books.onrender.com/v1/membresias';
 
   constructor(private http: HttpClient) { }
 
