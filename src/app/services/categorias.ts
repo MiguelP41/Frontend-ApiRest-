@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -10,9 +11,9 @@ import { map } from 'rxjs/operators';
 
 
 export class Categorias {
-
- urlConImagenes: string = 'https://apirest-books.onrender.com/v1/categorias-con-imagenes';
- url: any = 'https://apirest-books.onrender.com/v1/categorias';
+                              
+ urlConImagenes: string = `${environment.apiUrl}/categorias-con-imagenes`;
+ url: any = `${environment.apiUrl}/categorias`;
  //url: any = 'http://localhost:8080/v1/categorias';
  //urlConImagenes: string = 'http://localhost:8080/v1/categorias-con-imagenes';
  //url: any ='d3id4ip19bf03j.cloudfront.net/v1/categorias';

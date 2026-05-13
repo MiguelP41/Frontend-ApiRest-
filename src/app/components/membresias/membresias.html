@@ -1,22 +1,15 @@
-<div class="p-6 bg-gray-50 min-h-screen">
+<div class="p-4 md:p-6 bg-gray-50 min-h-screen">
   <div class="max-w-6xl mx-auto">
-    
-    <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <div>
-        <h3 class="text-2xl font-bold text-gray-800">Panel de Membresías</h3>
-        <p class="text-gray-500 text-sm">Gestiona y filtra los estados de tus clientes del Gym.</p>
-      </div>
-      <div class="flex gap-4">
-        <div class="bg-white p-3 rounded-lg shadow-sm border border-gray-200 min-w-[120px]">
-          <p class="text-xs text-gray-400 uppercase font-semibold">Total Vista</p>
-          <p class="text-xl font-bold text-blue-600">{{ membresiasFiltradas.length }}</p>
-        </div>
-      </div>
+
+    <!-- Header -->
+    <div class="mb-6 md:mb-8">
+      <h3 class="text-xl md:text-2xl font-bold text-gray-800">Panel de Membresías</h3>
+      <p class="text-gray-500 text-sm">Gestiona y filtra los estados de tus clientes del Gym.</p>
     </div>
 
+    <!-- Filtros -->
     <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 mb-6">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        
         <div class="space-y-2">
           <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Estado</label>
           <select [(ngModel)]="estadoFiltro" (change)="aplicarFiltros()"
@@ -33,19 +26,20 @@
           <select [(ngModel)]="semanaFiltro" (change)="aplicarFiltros()"
             class="w-full bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none transition-all">
             <option value="">Cualquier semana</option>
-            <option value="1">Semana 1 </option>
-            <option value="2">Semana 2 </option>
-            <option value="3">Semana 3 </option>
-            <option value="4">Semana 4 </option>
+            <option value="1">Semana 1</option>
+            <option value="2">Semana 2</option>
+            <option value="3">Semana 3</option>
+            <option value="4">Semana 4</option>
           </select>
         </div>
-
       </div>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-      <table class="w-full text-sm text-left">
-        <thead class="bg-gray-50 border-b border-gray-200">
+    <!-- Contenedor Tabla/Cards -->
+    <div class="bg-transparent md:bg-white md:rounded-xl md:shadow-sm md:border md:border-gray-200 overflow-hidden">
+      
+      <table class="w-full text-sm text-left block md:table">
+        <thead class="bg-gray-50 border-b border-gray-200 hidden md:table-header-group">
           <tr>
             <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">ID</th>
             <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Cliente</th>
@@ -54,25 +48,40 @@
             <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider text-center">Estado</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-100">
-          <tr *ngFor="let m of membresiasFiltradas" class="hover:bg-blue-50/50 transition-colors odd:bg-white even:bg-gray-50/80">
-            <td class="px-6 py-4 font-mono text-gray-400 text-xs">#{{ m.id }}</td>
-            <td class="px-6 py-4">
+        
+        <tbody class="block md:table-row-group">
+          <tr *ngFor="let m of membresiasPaginadas"
+            class="bg-white border border-gray-200 rounded-xl shadow-sm mb-4 block p-4 
+                   md:table-row md:border-0 md:rounded-none md:shadow-none md:mb-0 md:p-0 
+                   md:odd:bg-white md:even:bg-gray-50/80 hover:md:bg-blue-50/50 transition-colors">
+            
+            <td class="px-4 py-1 md:px-6 md:py-4 font-mono text-gray-400 text-xs block md:table-cell">
+              <span class="md:hidden font-bold mr-2 text-gray-400">ID:</span>#{{ m.id }}
+            </td>
+
+            <td class="px-4 py-1 md:px-6 md:py-4 block md:table-cell">
+              <span class="md:hidden block text-[10px] font-bold text-gray-400 uppercase mb-1">Cliente</span>
               <div class="font-medium text-gray-900">ID Cliente: {{ m.clienteId }}</div>
             </td>
-            <td class="px-6 py-4">
-              <span class="text-gray-700 font-semibold">{{ m.nombrePlan }}</span>
+
+            <td class="px-4 py-1 md:px-6 md:py-4 block md:table-cell">
+              <span class="md:hidden block text-[10px] font-bold text-gray-400 uppercase mb-1">Plan</span>
+              <span class="text-gray-700 font-semibold md:font-normal">{{ m.nombrePlan }}</span>
             </td>
-            <td class="px-6 py-4">
+
+            <td class="px-4 py-1 md:px-6 md:py-4 block md:table-cell">
+              <span class="md:hidden block text-[10px] font-bold text-gray-400 uppercase mb-1">Vigencia</span>
               <div class="text-xs text-gray-500">Desde: {{ m.fechaInicio }}</div>
               <div class="text-xs text-gray-500">Hasta: {{ m.fechaFin }}</div>
             </td>
-            <td class="px-6 py-4 text-center">
+
+            <td class="px-4 py-3 md:px-6 md:py-4 text-left md:text-center block md:table-cell">
+              <span class="md:hidden block text-[10px] font-bold text-gray-400 uppercase mb-2">Estado Actual</span>
               <span [ngClass]="{
                 'bg-green-100 text-green-700 border-green-200': m.estado === 'ACTIVA',
                 'bg-red-100 text-red-700 border-red-200': m.estado === 'VENCIDA',
                 'bg-yellow-100 text-yellow-700 border-yellow-200': m.estado === 'PAGADA'
-              }" class="px-3 py-1 rounded-full text-[10px] font-bold border uppercase tracking-tighter">
+              }" class="px-3 py-1 rounded-full text-[10px] font-bold border uppercase tracking-tighter inline-block">
                 {{ m.estado }}
               </span>
             </td>
@@ -80,15 +89,31 @@
         </tbody>
       </table>
 
-      <div *ngIf="membresiasFiltradas.length === 0" class="p-10 text-center">
-        <div class="text-gray-300 mb-2">
-          <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="9.172 9.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <p class="text-gray-500 font-medium">No se encontraron membresías con esos filtros.</p>
-      </div>
-    </div>
+      <!-- Paginación estilo image_2b3af2.png -->
+      <div *ngIf="membresiasFiltradas.length > 0"
+        class="flex items-center justify-center gap-2 md:gap-4 p-6 border-t border-gray-100 bg-white">
+        
+        <!-- Botón Anterior (Cuadrado en móvil) -->
+        <button (click)="paginaAnterior()" [disabled]="paginaActual === 0"
+          class="flex items-center justify-center min-w-[40px] h-[40px] md:px-4 md:w-auto text-sm font-medium text-gray-500 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-30 transition-all shadow-sm active:scale-95">
+          <span class="text-lg">&laquo;</span>
+          <span class="hidden md:inline ml-2">Anterior</span>
+        </button>
+        
+        <!-- Texto de Página -->
+        <span class="text-sm text-gray-400 px-2">
+          Página <strong class="text-gray-800 font-bold">{{ paginaActual + 1 }}</strong> de <strong class="text-gray-800 font-bold">{{ totalPaginas }}</strong>
+        </span>
 
+        <!-- Botón Siguiente (Cuadrado en móvil) -->
+        <button (click)="paginaSiguiente()" [disabled]="paginaActual === totalPaginas - 1"
+          class="flex items-center justify-center min-w-[40px] h-[40px] md:px-4 md:w-auto text-sm font-medium text-gray-500 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-30 transition-all shadow-sm active:scale-95">
+          <span class="hidden md:inline mr-2">Siguiente</span>
+          <span class="text-lg">&raquo;</span>
+        </button>
+
+      </div>
+
+    </div>
   </div>
 </div>

@@ -8,13 +8,13 @@ import { Body } from '../body/body';
 import { LoginComponent } from '../login/login'; 
 import { CommonModule } from '@angular/common'; 
 import { RouterLink, RouterLinkActive } from '@angular/router'; // <--- ¡ESTO!
-
+import { RouterModule } from '@angular/router'; // O RouterLinkActive
 
 
 @Component({
   selector: 'app-dashboard-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, Navbar, CommonModule],
+  imports: [RouterOutlet, RouterLink, Navbar, CommonModule,RouterModule,],
   templateUrl: './dashboard-layout.html',
   styleUrl: './dashboard-layout.css'
 })

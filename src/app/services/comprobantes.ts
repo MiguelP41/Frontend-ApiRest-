@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Comprobantes {
 
-  urlConImagenes: string = 'https://apirest-books.onrender.com/v1/comprobante-con-imagenes';
-  url: any = 'https://apirest-books.onrender.com/v1/comprobantes';
+  urlConImagenes: string = `${environment.apiUrl}/comprobante-con-imagenes`;
+  url: any = `${environment.apiUrl}/comprobantes`;
   //url: any = 'http://localhost:8080/v1/comprobantes';
   //urlConImagenes: string = 'http://localhost:8080/v1/comprobante-con-imagenes';
   //url: any ='d3id4ip19bf03j.cloudfront.net/v1/categorias';

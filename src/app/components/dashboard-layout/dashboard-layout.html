@@ -1,85 +1,92 @@
 <div id="wrapper" class="flex h-screen">
-    <!-- BARRA LATERAL (SIDEBAR) -->
-    <!-- CLAVES: sidebar y accordion manejan el colapso. 
-         d-none (Oculto en móvil) y d-md-block (Visible desde MD). 
-         Se eliminan las clases de Tailwind que causaban conflicto. -->
-    <ul id="accordionSidebar"
+  <!-- BARRA LATERAL (SIDEBAR) -->
+  <ul id="accordionSidebar"
     class="navbar-nav bg-linear-to-b from-orange-400 to-orange-600 sidebar sidebar-dark accordion h-full"
     [class.sidebar-hidden]="!isSidebarToggled"
     [class.sidebar-open]="isSidebarToggled">
     
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-            <div class="sidebar-brand-icon rotate-n-15">
-                
-                <i class="fa-solid fa-dumbbell"></i>
-            </div>
-            <div class="sidebar-brand-text mx-3">CFI Gym</div>
-        </a>
+    <!-- Brand / Logo -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+      <div class="sidebar-brand-icon rotate-n-15">
+        <i class="fa-solid fa-dumbbell"></i>
+      </div>
+      <div class="sidebar-brand-text mx-3">CFI Gym</div>
+    </a>
 
-        <hr class="sidebar-divider my-0">
+    <hr class="sidebar-divider my-0">
 
-        <li class="nav-item active">
-            <a class="nav-link cursor-pointer" routerLink="/Dasboard">
-                <i class="fas fa-fw fa-tags"></i>
-                <span>Clientes</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link cursor-pointer" routerLink="/Dasboard/ClientesAdmin">
-                <i class="fas fa-fw fa-box-open"></i>
-                <span>Gestion de Pagos</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link cursor-pointer" routerLink="/Dasboard/membresias">
-                <i class="fas fa-fw fa-chart-bar"></i>
-                <span>Gestionar Membresias</span>
-            </a>
-        </li>
+    <!-- Opción: Clientes -->
+    <!-- Usamos [routerLinkActiveOptions]="{exact: true}" para que no se sombreado 
+         cuando estemos en sub-rutas como /Dasboard/membresias -->
+    <li class="nav-item">
+      <a class="nav-link cursor-pointer" 
+         routerLink="/Dasboard" 
+         routerLinkActive="active" 
+         [routerLinkActiveOptions]="{ exact: true }">
+        <i class="fas fa-fw fa-tags"></i>
+        <span>Clientes</span>
+      </a>
+    </li>
 
-        <!-- La línea divisoria ahora usa clases de visibilidad de Bootstrap -->
-        <hr class="sidebar-divider d-none d-md-block">
+    <!-- Opción: Gestión de Pagos -->
+    <li class="nav-item">
+      <a class="nav-link cursor-pointer" 
+         routerLink="/Dasboard/ClientesAdmin" 
+         routerLinkActive="active">
+        <i class="fas fa-fw fa-box-open"></i>
+        <span>Gestion de Pagos</span>
+      </a>
+    </li>
 
-        <!-- El botón de toggle para el sidebar también usa clases de Bootstrap/SB Admin -->
-        <div class="text-center d-none d-md-inline">
-            <button class="rounded-circle border-0" id="sidebarToggle"></button>
-        </div>
+    <!-- Opción: Gestionar Membresías -->
+    <li class="nav-item">
+      <a class="nav-link cursor-pointer" 
+         routerLink="/Dasboard/membresias" 
+         routerLinkActive="active">
+        <i class="fas fa-fw fa-chart-bar"></i>
+        <span>Gestionar Membresias</span>
+      </a>
+    </li>
 
-    </ul>
+    <hr class="sidebar-divider d-none d-md-block">
 
-
-    <div 
-  *ngIf="isSidebarToggled" 
-  class="sidebar-overlay d-md-none" 
-  (click)="toggleSidebar()">
-</div>
-
-
-
-
-    <!-- CONTENEDOR PRINCIPAL -->
-    <!-- Se mantiene flex-grow para que ocupe el espacio restante -->
-    <div id="content-wrapper" class="d-flex flex-column grow w-full h-full">
-
-        <div id="content">
-
-            <app-navbar (logoutClicked)="handleLogout()" (toggleMenu)="toggleSidebar()">></app-navbar> 
-            <div class="container-fluid">
-               <router-outlet></router-outlet>
-            </div>
-            
-        </div>
-        <footer class="sticky-footer bg-white">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; PinTec Solutions-2025</span>
-                </div>
-            </div>
-        </footer>
+    <!-- Botón Toggle para colapsar -->
+    <div class="text-center d-none d-md-inline">
+      <button class="rounded-circle border-0" id="sidebarToggle" (click)="toggleSidebar()"></button>
     </div>
+  </ul>
+
+  <!-- Overlay para cerrar el menú en móviles -->
+  <div *ngIf="isSidebarToggled" 
+       class="sidebar-overlay d-md-none" 
+       (click)="toggleSidebar()">
+  </div>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <div id="content-wrapper" class="d-flex flex-column grow w-full h-full">
+    <div id="content">
+      <!-- Navbar superior -->
+      <app-navbar (logoutClicked)="handleLogout()" (toggleMenu)="toggleSidebar()"></app-navbar> 
+      
+      <!-- Contenido dinámico -->
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright &copy; PinTec Solutions-2025</span>
+        </div>
+      </div>
+    </footer>
+  </div>
 </div>
 
+<!-- Botón para subir (opcional) -->
 <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
+  <i class="fas fa-angle-up"></i>
 </a>
 

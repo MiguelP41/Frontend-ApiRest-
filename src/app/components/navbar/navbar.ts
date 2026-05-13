@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common'; // Necesario para el *ngIf
 @Component({
   selector: 'app-navbar',
   standalone: true, // Asegúrate de que sea standalone si no usas NgModules
-  imports: [CommonModule], 
+  imports: [CommonModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
@@ -17,27 +17,29 @@ export class Navbar implements OnInit {
   toggleMenu = output<void>();
   // 1. Definir la variable que usa el HTML
   esGestionPagos: boolean = false;
+  esGestionMembresias: boolean = false;
 
   constructor(
     private comunicacionService: NavbarComunicacion,
     private router: Router // Inyectar Router para detectar la página
-  ) {}
+  ) { }
 
   ngOnInit() {
-  // 1. Evaluar la ruta inmediatamente al cargar (para el F5)
-  this.evaluarRuta(this.router.url);
+    this.evaluarRuta(this.router.url);
 
-  // 2. Mantener la escucha para cambios de navegación futuros
-  this.router.events.pipe(
-    filter(event => event instanceof NavigationEnd)
-  ).subscribe((event: any) => {
-    this.evaluarRuta(event.url);
-  });
-}
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.evaluarRuta(event.url);
+    });
+  }
+
+
 
 // Creamos una función reutilizable para no repetir código
 private evaluarRuta(url: string) {
   this.esGestionPagos = url.includes('ClientesAdmin') || url.includes('GestionPagos');
+  this.esGestionMembresias = url.includes('membresias');
 }
 
   lanzarFormulario() {
