@@ -22,9 +22,9 @@
           <table class="w-full text-sm text-left block md:table">
             <thead class="bg-gray-50 border-b border-gray-200 hidden md:table-header-group">
               <tr>
-                <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">#</th>
-                <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Nombre</th>
-                <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Apellidos</th>
+                <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider md:w-24">#</th>
+                <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider md:min-w-[150px]">Nombre</th>
+                <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider md:min-w-[180px]">Apellidos</th>
                 <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">PDF</th>
                 <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Acciones</th>
               </tr>
@@ -37,18 +37,18 @@
                        md:odd:bg-white md:even:bg-gray-50/80 md:hover:bg-blue-50/50 transition-colors">
                 
                 <!-- ID -->
-                <td class="px-4 py-1 md:px-6 md:py-4 font-mono text-gray-400 text-xs block md:table-cell">
+                <td class="px-4 py-1 md:px-6 md:py-4 font-mono text-gray-400 text-xs block md:table-cell md:w-24 tabular-nums">
                   <span class="md:hidden font-bold mr-2 text-gray-400">ID:</span>#{{ item.id }}
                 </td>
 
                 <!-- Nombre -->
-                <td class="px-4 py-1 md:px-6 md:py-4 block md:table-cell">
+                <td class="px-4 py-1 md:px-6 md:py-4 block md:table-cell md:min-w-[150px]">
                   <span class="md:hidden block text-[10px] font-bold text-gray-400 uppercase mb-1">Nombre</span>
                   <div class="font-medium text-gray-900">{{ item.nombre }}</div>
                 </td>
 
                 <!-- Apellidos -->
-                <td class="px-4 py-1 md:px-6 md:py-4 text-gray-700 block md:table-cell">
+                <td class="px-4 py-1 md:px-6 md:py-4 text-gray-700 block md:table-cell md:min-w-[180px]">
                   <span class="md:hidden block text-[10px] font-bold text-gray-400 uppercase mb-1">Apellidos</span>
                   {{ item.apellidos }}
                 </td>

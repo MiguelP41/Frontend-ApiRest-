@@ -41,8 +41,8 @@
       <table class="w-full text-sm text-left block md:table">
         <thead class="bg-gray-50 border-b border-gray-200 hidden md:table-header-group">
           <tr>
-            <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">ID</th>
-            <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Cliente</th>
+           <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider md:w-24">ID</th>
+            <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider md:min-w-[200px]">Cliente</th>
             <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Plan contratado</th>
             <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Vigencia</th>
             <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider text-center">Estado</th>
@@ -61,7 +61,7 @@
 
             <td class="px-4 py-1 md:px-6 md:py-4 block md:table-cell">
               <span class="md:hidden block text-[10px] font-bold text-gray-400 uppercase mb-1">Cliente</span>
-              <div class="font-medium text-gray-900">ID Cliente: {{ m.clienteId }}</div>
+              <div class="font-medium text-gray-900"> {{ m.nombreCliente }}</div>
             </td>
 
             <td class="px-4 py-1 md:px-6 md:py-4 block md:table-cell">
