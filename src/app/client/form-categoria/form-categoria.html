@@ -1,4 +1,4 @@
-<div class="mx-6 md:mx-auto max-w-5xl mt-6 md:mt-12  mb-8  shadow-xl rounded-2xl overflow-hidden border border-gray-100">
+<div class="mx-6 md:mx-auto max-w-5xl mt-6 md:mt-12 mb-8 shadow-xl rounded-2xl overflow-hidden border border-gray-100">
     
     <div class="bg-linear-to-b from-orange-400 to-orange-600 px-6 py-4">
         <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white flex items-center gap-2">
@@ -9,22 +9,17 @@
 
     <form [formGroup]="comprobanteForm" (ngSubmit)="guardarComprobante2()" class="p-8">
         
+        <!-- Fila 1: Identificación y Referencia -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <!-- SECCIÓN IDENTIFICACIÓN (CON CORRECCIÓN DE ESQUINAS) -->
             <div class="space-y-1"> 
                 <label for="cedula" class="text-sm font-semibold text-gray-700 ml-1">Identificación (Cédula/RIF)</label>
-                
-                <!-- El secreto: El padre tiene el fondo Y el redondeado Y el overflow-hidden -->
                 <div class="relative flex shadow-sm border border-gray-300 rounded-xl overflow-hidden bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500 transition-all">
-                    
                     <select id="tipoDocumento" 
                         class="inline-flex items-center px-3 border-r border-gray-300 bg-gray-100 text-gray-700 font-bold sm:text-sm outline-none cursor-pointer">
                         <option value="V">V</option>
                         <option value="J">J</option>
                         <option value="G">G</option>
                     </select>
-
-                    <!-- IMPORTANTE: bg-transparent y h-full evitan las esquinas blancas -->
                     <input type="text" id="cedula" formControlName="cedula" 
                         class="w-full px-4 py-2.5 bg-transparent text-gray-600 outline-none border-none focus:ring-0 h-full"
                         placeholder="26040803" 
@@ -33,7 +28,6 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN REFERENCIA -->
             <div class="space-y-1"> 
                 <label for="referencia" class="text-sm font-semibold text-gray-700 ml-1">Referencia</label>
                 <div class="relative">
@@ -47,11 +41,10 @@
             </div>
         </div>
 
-        <!-- RESTO DEL FORMULARIO CON BORDES REDONDEADOS XL PARA CONSISTENCIA -->
+        <!-- Fila 2: Teléfono y Banco Origen -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div class="space-y-1">
-                <div class="space-y-1"> 
-                <label for="telefo_pag" class="text-sm font-semibold text-gray-700 ml-1">Telefono</label>
+            <div class="space-y-1"> 
+                <label for="telefo_pag" class="text-sm font-semibold text-gray-700 ml-1">Teléfono</label>
                 <div class="relative">
                     <input type="text" 
                            id="telefo_pag" 
@@ -62,15 +55,13 @@
                 </div>
             </div>
 
-            </div>
-
             <div class="space-y-1">
                 <label for="banco_ori" class="text-sm font-semibold text-gray-700 ml-1">Banco Origen</label>
                 <select id="banco_ori" 
                         formControlName="banco_ori"
                         class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm">
                     <option value="" disabled selected>Seleccione un banco</option>
-                    <option value="0102">0102 - BANCO DE VENEZUELA </option>
+                    <option value="0102">0102 - BANCO DE VENEZUELA</option>
                     <option value="0172">0172 - BANCAMIGA</option>
                     <option value="0108 - PROVINCIAL">0108 - PROVINCIAL</option>
                     <option value="0134 - BANESCO">0134 - BANESCO</option>
@@ -78,12 +69,13 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Fila 3: Monto, Fecha de Pago y Fecha Inicio -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <div class="space-y-1">
                 <label class="text-sm font-semibold text-gray-700 ml-1">Monto Cancelado</label>
                 <div class="relative shadow-sm rounded-xl overflow-hidden">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <span class="text-gray-500 sm:text-sm font-bold"> Bs </span>
+                        <span class="text-gray-500 sm:text-sm font-bold">Bs</span>
                     </div>
                     <input type="text" 
                            formControlName="monto" 
@@ -100,31 +92,42 @@
                        formControlName="fecha_pag" 
                        class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm">
             </div>
+
+            <!-- ✅ NUEVO: Fecha Inicio -->
+            <div class="space-y-1">
+                <label for="fecha_inicio" class="text-sm font-semibold text-gray-700 ml-1">Fecha Inicio</label>
+                <input type="date" 
+                       id="fecha_inicio" 
+                       formControlName="fecha_inicio" 
+                       class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm"
+                       required>
+                <div *ngIf="comprobanteForm.get('fecha_inicio')?.invalid && comprobanteForm.get('fecha_inicio')?.touched"
+                     class="text-red-500 text-xs font-medium mt-1 ml-1">
+                    El campo es obligatorio.
+                </div>
+            </div>
         </div>
 
-        <div class="space-y-1">
-    <label for="planId" class="text-sm font-bold text-gray-700 ml-1">Plan de Membresía</label>
-    <div class="relative">
-        <select id="planId" formControlName="planId" 
-            class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm appearance-none cursor-pointer">
-            <option [value]="null" disabled>-- Seleccione el plan --</option>
-            
-            <option value="1">Plan Mensual (4 Semanas) - $45.00</option>
-            <option value="2">Plan Trimestral (12 Semanas) - $120.00</option>
-            <option value="3">Plan Semanal (1 Semana) - $7.00</option>
-            
-        </select>
-        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
-            <i class="fas fa-chevron-down text-xs"></i>
+        <!-- Plan de Membresía -->
+        <div class="space-y-1 mb-6">
+            <label for="planId" class="text-sm font-bold text-gray-700 ml-1">Plan de Membresía</label>
+            <div class="relative">
+                <select id="planId" formControlName="planId" 
+                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm appearance-none cursor-pointer">
+                    <option [value]="null" disabled>-- Seleccione el plan --</option>
+                    <option value="1">Plan Mensual (4 Semanas) - $45.00</option>
+                    <option value="2">Plan Trimestral (12 Semanas) - $120.00</option>
+                    <option value="3">Plan Semanal (1 Semana) - $7.00</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
+                    <i class="fas fa-chevron-down text-xs"></i>
+                </div>
+            </div>
         </div>
-    </div>
-</div> 
-        
-
-        
 
         <hr class="mb-8 border-gray-100">
 
+        <!-- Comprobante -->
         <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
             <i class="fas fa-camera text-indigo-500"></i> Comprobante
         </h3>
@@ -136,16 +139,14 @@
             </div>
         </div>
 
-
-        
-
+        <!-- Botones -->
         <div class="flex items-center justify-end gap-4 pt-6 border-t border-gray-100">
             <button type="button" (click)="cancelarFormulario()"
-                class="px-6 py-2.5 text-sm font-medium text-gray-600 bg-white rounded-lg border border-gray-300 rounded-xl hover:bg-gray-50 hover:text-gray-800 transition-all duration-200 focus:ring-4 focus:ring-gray-100">
+                class="px-6 py-2.5 text-sm font-medium text-gray-600 bg-white rounded-xl border border-gray-300 hover:bg-gray-50 hover:text-gray-800 transition-all duration-200 focus:ring-4 focus:ring-gray-100">
                 Cancelar
             </button>
-            <button type="submit" [disabled]="comprobanteForm.invalid || !selectedFile1 || isLoading()" class="flex items-center bg-[#FF8A00] hover:bg-[#E67C00] text-white px-10 py-2.5 rounded-lg border-none 
-                       disabled:opacity-50 disabled:pointer-events-none">
+            <button type="submit" [disabled]="comprobanteForm.invalid || !selectedFile1 || isLoading()" 
+                class="flex items-center bg-[#FF8A00] hover:bg-[#E67C00] text-white px-10 py-2.5 rounded-lg border-none disabled:opacity-50 disabled:pointer-events-none">
                 Guardar
             </button>
         </div>
@@ -156,63 +157,43 @@
 <!-- MODAL DE ÉXITO -->
 <div *ngIf="mostrarModalSuccess" 
      class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-indigo-200/10 backdrop-blur-md transition-all">
-    
-    <!-- Contenedor con escala animada -->
     <div class="bg-white rounded-[2.5rem] shadow-2xl max-w-sm w-full overflow-hidden border border-gray-100 animate-in zoom-in duration-300">
-        
-        <!-- Cabecera con degradado naranja (como tu form) -->
         <div class="bg-linear-to-br from-orange-400 to-orange-600 p-10 text-center relative">
             <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-white/20 shadow-lg mb-2 backdrop-blur-sm">
                 <i class="fas fa-check text-4xl text-white"></i>
             </div>
-            <!-- Círculos decorativos de fondo -->
             <div class="absolute top-[-10%] right-[-10%] h-24 w-24 bg-white/10 rounded-full"></div>
         </div>
-
         <div class="p-8 text-center">
-          <h3 class="text-2xl font-bold text-gray-800 mb-2">¡Guardado!</h3>
-          <p class="text-gray-500 mb-8 leading-relaxed">
-            Su pago fue validado correctamente en el sistema.
-          </p>
-          
-        <button (click)="cerrarExito()" type="button"
-            class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-[20px] !rounded-[20px] transition-all shadow-lg shadow-indigo-100 active:scale-95 flex items-center justify-center gap-2 border-none outline-none">
-            <span>Entendido</span>
-            <i class="fas fa-arrow-right text-sm"></i>
-        </button>
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">¡Guardado!</h3>
+            <p class="text-gray-500 mb-8 leading-relaxed">Su pago fue validado correctamente en el sistema.</p>
+            <button (click)="cerrarExito()" type="button"
+                class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-[20px] transition-all shadow-lg shadow-indigo-100 active:scale-95 flex items-center justify-center gap-2 border-none outline-none">
+                <span>Entendido</span>
+                <i class="fas fa-arrow-right text-sm"></i>
+            </button>
         </div>
     </div>
 </div>
 
-
+<!-- MODAL DE ERROR -->
 <div *ngIf="mostrarModalError" 
      class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-indigo-200/10 backdrop-blur-md transition-all">
-    
-    <!-- Contenedor con escala animada -->
     <div class="bg-white rounded-[2.5rem] shadow-2xl max-w-sm w-full overflow-hidden border border-gray-100 animate-in zoom-in duration-300">
-        
-        <!-- Cabecera con degradado naranja (como tu form) -->
         <div class="bg-linear-to-br from-orange-400 to-orange-600 p-10 text-center relative">
             <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-white/20 shadow-lg mb-2 backdrop-blur-sm">
                 <i class="fas fa-check text-4xl text-white"></i>
             </div>
-            <!-- Círculos decorativos de fondo -->
             <div class="absolute top-[-10%] right-[-10%] h-24 w-24 bg-white/10 rounded-full"></div>
         </div>
-
         <div class="p-8 text-center">
-          <h3 class="text-2xl font-bold text-gray-800 mb-2">¡Error!</h3>
-          <p class="text-gray-500 mb-8 leading-relaxed">
-            {{ mensajeErrorBackend }}
-          </p>
-          
-        <button (click)="cerrarError()" type="button"
-            class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-[20px] !rounded-[20px] transition-all shadow-lg shadow-indigo-100 active:scale-95 flex items-center justify-center gap-2 border-none outline-none">
-            <span>Entendido</span>
-            <i class="fas fa-arrow-right text-sm"></i>
-        </button>
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">¡Error!</h3>
+            <p class="text-gray-500 mb-8 leading-relaxed">{{ mensajeErrorBackend }}</p>
+            <button (click)="cerrarError()" type="button"
+                class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-[20px] transition-all shadow-lg shadow-indigo-100 active:scale-95 flex items-center justify-center gap-2 border-none outline-none">
+                <span>Entendido</span>
+                <i class="fas fa-arrow-right text-sm"></i>
+            </button>
         </div>
     </div>
 </div>
-<div>
-

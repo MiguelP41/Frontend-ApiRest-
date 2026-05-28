@@ -18,6 +18,7 @@ export class Navbar implements OnInit {
   // 1. Definir la variable que usa el HTML
   esGestionPagos: boolean = false;
   esGestionMembresias: boolean = false;
+  esGestionMembresiasCarga: boolean = false;
 
   constructor(
     private comunicacionService: NavbarComunicacion,
@@ -40,6 +41,8 @@ export class Navbar implements OnInit {
 private evaluarRuta(url: string) {
   this.esGestionPagos = url.includes('ClientesAdmin') || url.includes('GestionPagos');
   this.esGestionMembresias = url.includes('membresias');
+  this.esGestionMembresiasCarga = url.includes('membresia/cargar');
+  
 }
 
   lanzarFormulario() {

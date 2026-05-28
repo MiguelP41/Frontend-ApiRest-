@@ -52,6 +52,10 @@ export const routes: Routes = [
         loadComponent: () => import('./components/membresias/membresias').then(m => m.MembresiasComponent),
       },
 
+      {
+        path: 'membresia/cargar', // La URL será: localhost:4200/Dasboard/membresias
+        loadComponent: () => import('./components/form-membresia/form-membresia').then(m => m.FormMembresiaComponent),
+      },
 
       {
       path: '', // <--- Esto significa: "Si la ruta es solo /Dasboard..."

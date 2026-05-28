@@ -45,3 +45,12 @@
   z-index: 1050; /* Por debajo del sidebar (1060) */
   cursor: pointer;
 }
+
+.collapse-item-custom {
+  color: rgba(255, 255, 255, 0.8) !important;
+  text-decoration: none !important;
+}
+
+.collapse-item-custom:hover {
+  color: white !important;
+}

@@ -42,11 +42,19 @@ export class MembresiasComponent implements OnInit {
     });
   }
 
+
+
+  horarioFiltro: string = ''; // ✅ Nueva variable
+
   aplicarFiltros(): void {
     const hoy = new Date();
 
     this.membresiasFiltradas = this.membresias.filter(m => {
       const cumpleEstado = this.estadoFiltro ? m.estado === this.estadoFiltro : true;
+
+      const cumpleHorario = this.horarioFiltro
+        ? m.horaEntreno === this.horarioFiltro  // ✅ Nuevo filtro
+        : true;
 
       let cumpleSemana = true;
       if (this.semanaFiltro) {
@@ -61,12 +69,14 @@ export class MembresiasComponent implements OnInit {
         }
       }
 
-      return cumpleEstado && cumpleSemana;
+      return cumpleEstado && cumpleSemana && cumpleHorario; // ✅ Se suma al return
     });
 
-    this.paginaActual = 0; // resetear a página 1 al filtrar
+    this.paginaActual = 0;
     this.actualizarPaginacion();
   }
+
+
 
   actualizarPaginacion(): void {
     this.totalPaginas = Math.ceil(this.membresiasFiltradas.length / this.itemsPorPagina);

@@ -1,0 +1,140 @@
+<div class="mx-6 max-w-5xl mx-auto mb-10 mt-12 bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
+    <!-- Encabezado -->
+    <div class="bg-linear-to-b from-orange-400 to-orange-600 px-6 py-4">
+        <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white flex items-center gap-2">
+            <i class="fas fa-id-card"></i> Registrar Membresía
+        </h2>
+        <p class="text-orange-50 text-sm mb-0 opacity-90">Complete la información para generar la membresía del cliente.</p>
+    </div>
+
+    <form [formGroup]="membresiaForm" (ngSubmit)="guardarMembresia()" class="p-8 lg:p-10 space-y-8">
+
+        <!-- Fila 1: Cédula y Fecha Inicio -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <!-- Cédula -->
+            <div class="space-y-1">
+                <label class="text-sm font-semibold text-gray-700 ml-1">Identificación (Cédula/RIF)</label>
+                <div class="relative flex shadow-sm border border-gray-300 rounded-xl overflow-hidden bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500 transition-all">
+                    <select formControlName="tipo_docu"
+                        class="inline-flex items-center px-3 border-r border-gray-300 bg-gray-100 text-gray-700 font-bold sm:text-sm outline-none cursor-pointer rounded-l-xl">
+                        <option value="V">V</option>
+                        <option value="J">J</option>
+                        <option value="G">G</option>
+                    </select>
+                    <input type="text" formControlName="cedula"
+                        class="w-full px-4 py-2.5 bg-transparent text-gray-700 outline-none border-none focus:ring-0"
+                        placeholder="26040803"
+                        (input)="formatearCedula($event)"
+                        required>
+                </div>
+                <div *ngIf="membresiaForm.get('cedula')?.invalid && membresiaForm.get('cedula')?.touched"
+                     class="text-red-500 text-xs font-medium mt-1 ml-1">
+                    El campo es obligatorio.
+                </div>
+            </div>
+
+            <!-- Fecha Inicio -->
+            <div class="space-y-1">
+                <label for="fecha_inicio" class="text-sm font-bold text-gray-700 ml-1">Fecha Inicio</label>
+                <input type="date" id="fecha_inicio" formControlName="fecha_inicio"
+                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none shadow-sm"
+                    required>
+                <div *ngIf="membresiaForm.get('fecha_inicio')?.invalid && membresiaForm.get('fecha_inicio')?.touched"
+                     class="text-red-500 text-xs font-medium mt-1 ml-1">
+                    El campo es obligatorio.
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Fila 2: Plan -->
+        <div class="space-y-1">
+            <label for="planId" class="text-sm font-bold text-gray-700 ml-1">Plan de Membresía</label>
+            <div class="relative">
+                <select id="planId" formControlName="planId"
+                    class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none shadow-sm appearance-none cursor-pointer"
+                    required>
+                    <option value="" disabled selected>-- Seleccione un plan --</option>
+                    <option value="1">Plan Mensual (4 Semanas) - $45.00</option>
+                    <option value="2">Plan Trimestral (12 Semanas) - $120.00</option>
+                    <option value="3">Plan Semanal (1 Semana) - $7.00</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                    <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
+                </div>
+            </div>
+            <div *ngIf="membresiaForm.get('planId')?.invalid && membresiaForm.get('planId')?.touched"
+                 class="text-red-500 text-xs font-medium mt-1 ml-1">
+                El campo es obligatorio.
+            </div>
+        </div>
+
+        <!-- Fila 3: Descripción -->
+        <div class="space-y-1">
+            <label for="descripcion" class="text-sm font-bold text-gray-700 ml-1">Descripción / Notas Adicionales</label>
+            <textarea id="descripcion" formControlName="descripcion" rows="3"
+                class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm resize-none"
+                placeholder="Información adicional sobre la membresía..."></textarea>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="flex flex-col sm:flex-row items-center justify-end gap-3 pt-6 border-t border-gray-100 px-4 pb-4">
+            <button type="button"
+                (click)="cancelarFormulario()"
+                class="w-full sm:w-auto order-2 sm:order-1 px-6 py-2.5 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 hover:text-gray-800 transition-all duration-200 focus:ring-4 focus:ring-gray-100">
+                Cancelar
+            </button>
+            <button type="submit"
+                [disabled]="membresiaForm.invalid"
+                class="w-full sm:w-auto order-1 sm:order-2 px-8 py-2.5 text-sm font-bold text-white bg-orange-500 rounded-xl hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-orange-200 transition-all duration-200">
+                Guardar Membresía
+            </button>
+        </div>
+
+    </form>
+</div>
+
+<!-- MODAL DE ÉXITO -->
+<div *ngIf="mostrarModalSuccess"
+     class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-indigo-200/10 backdrop-blur-md transition-all">
+    <div class="bg-white rounded-[2.5rem] shadow-2xl max-w-sm w-full overflow-hidden border border-gray-100 animate-in zoom-in duration-300">
+        <div class="bg-linear-to-br from-orange-400 to-orange-600 p-10 text-center relative">
+            <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-white/20 shadow-lg mb-2 backdrop-blur-sm">
+                <i class="fas fa-check text-4xl text-white"></i>
+            </div>
+            <div class="absolute top-[-10%] right-[-10%] h-24 w-24 bg-white/10 rounded-full"></div>
+        </div>
+        <div class="p-8 text-center">
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">¡Guardado!</h3>
+            <p class="text-gray-500 mb-8 leading-relaxed">Membresía registrada correctamente en el sistema.</p>
+            <button (click)="cerrarExito()" type="button"
+                class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-[20px] transition-all shadow-lg shadow-indigo-100 active:scale-95 flex items-center justify-center gap-2 border-none outline-none">
+                <span>Entendido</span>
+                <i class="fas fa-arrow-right text-sm"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DE ERROR -->
+<div *ngIf="mostrarModalError"
+     class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-indigo-200/10 backdrop-blur-md transition-all">
+    <div class="bg-white rounded-[2.5rem] shadow-2xl max-w-sm w-full overflow-hidden border border-gray-100 animate-in zoom-in duration-300">
+        <div class="bg-linear-to-br from-orange-400 to-orange-600 p-10 text-center relative">
+            <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-white/20 shadow-lg mb-2 backdrop-blur-sm">
+                <i class="fas fa-times text-4xl text-white"></i>
+            </div>
+            <div class="absolute top-[-10%] right-[-10%] h-24 w-24 bg-white/10 rounded-full"></div>
+        </div>
+        <div class="p-8 text-center">
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">¡Error!</h3>
+            <p class="text-gray-500 mb-8 leading-relaxed">No se pudo registrar la membresía.</p>
+            <button (click)="cerrarError()" type="button"
+                class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-[20px] transition-all shadow-lg shadow-indigo-100 active:scale-95 flex items-center justify-center gap-2 border-none outline-none">
+                <span>Entendido</span>
+                <i class="fas fa-arrow-right text-sm"></i>
+            </button>
+        </div>
+    </div>
+</div>

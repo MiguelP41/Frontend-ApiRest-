@@ -39,14 +39,39 @@
     </li>
 
     <!-- Opción: Gestionar Membresías -->
-    <li class="nav-item">
-      <a class="nav-link cursor-pointer" 
-         routerLink="/Dasboard/membresias" 
-         routerLinkActive="active">
-        <i class="fas fa-fw fa-chart-bar"></i>
-        <span>Gestionar Membresias</span>
+    <!-- Opción: Gestionar Membresías con submenú -->
+<li class="nav-item">
+  <a class="nav-link cursor-pointer" (click)="toggleMembresias()">
+    <i class="fas fa-fw fa-chart-bar"></i>
+    <span>Gestionar Membresias </span>
+    <i class="fas ml-auto transition-transform duration-200"
+       [class.fa-angle-down]="!membresiasOpen"
+       [class.fa-angle-up]="membresiasOpen"></i>
+  </a>
+
+  <div class="overflow-hidden transition-all duration-300"
+       [class.max-h-0]="!membresiasOpen"
+       [class.max-h-40]="membresiasOpen">
+    <div class="mx-2 mb-2 rounded-lg bg-white/10 flex flex-col py-1">
+
+      <a routerLink="/Dasboard/membresias" routerLinkActive="font-bold bg-white/20"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="collapse-item-custom flex items-center gap-2 px-4 py-2 text-sm hover:bg-white/20 rounded-lg transition-all cursor-pointer">
+        <i class="fas fa-fw fa-list text-xs"></i>
+        <span>Ver Membresías</span>
       </a>
-    </li>
+      
+      <a routerLink="/Dasboard/membresia/cargar" routerLinkActive="font-bold bg-white/20"
+        class="collapse-item-custom flex items-center gap-2 px-4 py-2 text-sm hover:bg-white/20 rounded-lg transition-all cursor-pointer">
+        <i class="fas fa-fw fa-plus-circle text-xs"></i>
+        <span>Cargar Membresía</span>
+      </a>
+
+    </div>
+  </div>
+</li>
+
+  
 
     <hr class="sidebar-divider d-none d-md-block">
 

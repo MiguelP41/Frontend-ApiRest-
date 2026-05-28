@@ -10,6 +10,7 @@
     <!-- Filtros -->
     <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 mb-6">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
         <div class="space-y-2">
           <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Estado</label>
           <select [(ngModel)]="estadoFiltro" (change)="aplicarFiltros()"
@@ -17,7 +18,7 @@
             <option value="">Todos los estados</option>
             <option value="ACTIVA">🟢 ACTIVA</option>
             <option value="VENCIDA">🔴 VENCIDA</option>
-            <option value="PAGADA">🟡 PAGADA</option>
+            <option value="PROGRAMADA">🟡 PROGRAMADA</option>
           </select>
         </div>
 
@@ -32,6 +33,29 @@
             <option value="4">Semana 4</option>
           </select>
         </div>
+
+        <!-- ✅ NUEVO: Filtro por Horario -->
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Horario</label>
+          <select [(ngModel)]="horarioFiltro" (change)="aplicarFiltros()"
+            class="w-full bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none transition-all">
+            <option value="">Todos los horarios</option>
+            <option value="06:00:00">6 AM  🌅 </option>
+            <option value="07:00:00">7 AM  🌅 </option>
+            <option value="08:00:00">8 AM  🌅 </option>
+            <option value="09:00:00">9 AM  🌅 </option>
+            <option value="10:00:00">10 AM 🌅 </option>
+            <option value="11:00:00">11 AM 🌅 </option>
+            <option value="15:00:00">3 PM  ☀️ </option>
+            <option value="16:00:00">4 PM  ☀️ </option>
+            <option value="17:00:00">5 PM  ☀️ </option>
+            <option value="18:00:00">6 PM  ☀️ </option>
+            <option value="19:00:00">7 PM  🌙 </option>
+            <option value="20:00:00">8 PM  🌙 </option>
+            <option value="21:00:00">9 PM  🌙 </option>
+          </select>
+        </div>
+
       </div>
     </div>
 
@@ -41,7 +65,7 @@
       <table class="w-full text-sm text-left block md:table">
         <thead class="bg-gray-50 border-b border-gray-200 hidden md:table-header-group">
           <tr>
-           <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider md:w-24">ID</th>
+            <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider md:w-24">ID</th>
             <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider md:min-w-[200px]">Cliente</th>
             <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Plan contratado</th>
             <th class="px-6 py-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Vigencia</th>
@@ -61,7 +85,7 @@
 
             <td class="px-4 py-1 md:px-6 md:py-4 block md:table-cell">
               <span class="md:hidden block text-[10px] font-bold text-gray-400 uppercase mb-1">Cliente</span>
-              <div class="font-medium text-gray-900"> {{ m.nombreCliente }}</div>
+              <div class="font-medium text-gray-900">{{ m.nombreCliente }}</div>
             </td>
 
             <td class="px-4 py-1 md:px-6 md:py-4 block md:table-cell">
@@ -75,37 +99,37 @@
               <div class="text-xs text-gray-500">Hasta: {{ m.fechaFin }}</div>
             </td>
 
-            <td class="px-4 py-3 md:px-6 md:py-4 text-left md:text-center block md:table-cell">
-              <span class="md:hidden block text-[10px] font-bold text-gray-400 uppercase mb-2">Estado Actual</span>
-              <span [ngClass]="{
-                'bg-green-100 text-green-700 border-green-200': m.estado === 'ACTIVA',
-                'bg-red-100 text-red-700 border-red-200': m.estado === 'VENCIDA',
-                'bg-yellow-100 text-yellow-700 border-yellow-200': m.estado === 'PAGADA'
-              }" class="px-3 py-1 rounded-full text-[10px] font-bold border uppercase tracking-tighter inline-block">
-                {{ m.estado }}
-              </span>
+            <td class="px-4 py-3 md:px-6 md:py-4 block md:table-cell">
+              <span class="md:hidden block text-[10px] font-bold text-gray-400 uppercase mb-2">Estado</span>
+              <div class="flex md:justify-center">
+                <span [ngClass]="{
+                  'bg-green-100 text-green-700 border-green-200': m.estado === 'ACTIVA',
+                  'bg-red-100 text-red-700 border-red-200': m.estado === 'VENCIDA',
+                  'bg-yellow-100 text-yellow-700 border-yellow-200': m.estado === 'PROGRAMADA'
+                }" class="px-3 py-1 rounded-full text-[10px] font-bold border uppercase tracking-tighter inline-block">
+                  {{ m.estado }}
+                </span>
+              </div>
             </td>
+
           </tr>
         </tbody>
       </table>
 
-      <!-- Paginación estilo image_2b3af2.png -->
+      <!-- Paginación -->
       <div *ngIf="membresiasFiltradas.length > 0"
         class="flex items-center justify-center gap-2 md:gap-4 p-6 border-t border-gray-100 bg-white">
         
-        <!-- Botón Anterior (Cuadrado en móvil) -->
         <button (click)="paginaAnterior()" [disabled]="paginaActual === 0"
           class="flex items-center justify-center min-w-[40px] h-[40px] md:px-4 md:w-auto text-sm font-medium text-gray-500 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-30 transition-all shadow-sm active:scale-95">
           <span class="text-lg">&laquo;</span>
           <span class="hidden md:inline ml-2">Anterior</span>
         </button>
         
-        <!-- Texto de Página -->
         <span class="text-sm text-gray-400 px-2">
           Página <strong class="text-gray-800 font-bold">{{ paginaActual + 1 }}</strong> de <strong class="text-gray-800 font-bold">{{ totalPaginas }}</strong>
         </span>
 
-        <!-- Botón Siguiente (Cuadrado en móvil) -->
         <button (click)="paginaSiguiente()" [disabled]="paginaActual === totalPaginas - 1"
           class="flex items-center justify-center min-w-[40px] h-[40px] md:px-4 md:w-auto text-sm font-medium text-gray-500 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-30 transition-all shadow-sm active:scale-95">
           <span class="hidden md:inline mr-2">Siguiente</span>

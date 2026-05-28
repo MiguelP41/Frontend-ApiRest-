@@ -42,7 +42,8 @@ export class FormCategoriaComponent implements OnInit {
       banco_ori: ['', Validators.required],
       telefo_pag: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
       fecha_pag: ['', Validators.required],
-      planId: ['', Validators.required]
+      planId: ['', Validators.required],
+      fecha_inicio: ['', Validators.required]
     });
   }
 
@@ -80,7 +81,7 @@ export class FormCategoriaComponent implements OnInit {
 
 
 
-    formData.append('comprobante', JSON.stringify(nuevoComprobante));
+    
 
     if (this.selectedFile1) {
       formData.append('imagen1', this.selectedFile1, this.selectedFile1.name);

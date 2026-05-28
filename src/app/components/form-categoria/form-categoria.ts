@@ -34,7 +34,11 @@
         correo: ['', [Validators.required, Validators.maxLength(50)]],
         descripcion: ['', [Validators.required, Validators.maxLength(255)]],
         tipo_docu: ['V', [Validators.required, Validators.maxLength(50)]],
-        documento: ['', [Validators.required, Validators.maxLength(50)]]
+        documento: ['', [Validators.required, Validators.maxLength(50)]],
+        fecha_inicio: ['', Validators.required],
+        cod_telefono: ['0412'],
+        telefono: ['', Validators.required],
+        horario: ['', Validators.required],
         
       });
     }
@@ -100,8 +104,24 @@
         return;
       }
 
+      const valores = this.categoriaForm.value;
+      const { cod_telefono, telefono, ...resto } = this.categoriaForm.value;
+
+      const nuevaCategoria = {
+        nombre: valores.nombre,
+        apellidos: valores.apellidos,
+        correo: valores.correo,
+        descripcion: valores.descripcion,
+        tipo_docu: valores.tipo_docu,
+        documento: valores.documento,
+        fecha_inicio: valores.fecha_inicio,
+        hora_entreno: valores.horario,
+        telefono: `${cod_telefono}${telefono}`, // ✅ Se combina aquí y listo
+      };
+
+
+
       const formData = new FormData();
-      const nuevaCategoria = this.categoriaForm.value;
 
       formData.append('categoria', JSON.stringify(nuevaCategoria));
 

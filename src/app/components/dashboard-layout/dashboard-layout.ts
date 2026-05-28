@@ -44,4 +44,17 @@ export class DashboardLayout {
    this.isSidebarToggled = !this.isSidebarToggled;
  }
 
+
+ membresiasOpen: boolean = false;
+
+toggleMembresias(): void {
+  this.membresiasOpen = !this.membresiasOpen;
+}
+
+ngOnInit(): void {
+  if (this.router.url.includes('/Dasboard/membresias')) {
+    this.membresiasOpen = true;
+  }
+}
+
 }
