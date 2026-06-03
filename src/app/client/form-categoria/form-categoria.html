@@ -85,27 +85,28 @@
                 </div>
             </div>
 
-            <div class="space-y-1">
+            <div class="space-y-1 overflow-hidden w-full">
                 <label for="fecha_pag" class="text-sm font-semibold text-gray-700 ml-1">Fecha de Pago</label>
-                <input type="date" 
-                       id="fecha_pag" 
-                       formControlName="fecha_pag" 
-                       class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm">
-            </div>
-
-            <!-- ✅ NUEVO: Fecha Inicio -->
-            <div class="space-y-1">
-                <label for="fecha_inicio" class="text-sm font-semibold text-gray-700 ml-1">Fecha Inicio</label>
-                <input type="date" 
-                       id="fecha_inicio" 
-                       formControlName="fecha_inicio" 
-                       class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm"
-                       required>
-                <div *ngIf="comprobanteForm.get('fecha_inicio')?.invalid && comprobanteForm.get('fecha_inicio')?.touched"
-                     class="text-red-500 text-xs font-medium mt-1 ml-1">
-                    El campo es obligatorio.
+                <div class="overflow-hidden w-full rounded-xl">
+                    <input type="date" id="fecha_pag" formControlName="fecha_pag" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 
+                               rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm 
+                               appearance-none block" style="max-width: 100%; width: 100%;">
                 </div>
             </div>
+
+<!-- Fecha Inicio -->
+<div class="space-y-1 overflow-hidden w-full">
+    <label for="fecha_inicio" class="text-sm font-semibold text-gray-700 ml-1">Fecha Inicio</label>
+    <div class="overflow-hidden w-full rounded-xl">
+        <input type="date" id="fecha_inicio" formControlName="fecha_inicio" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-600 
+                   rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm 
+                   appearance-none block" style="max-width: 100%; width: 100%;" required>
+    </div>
+    <div *ngIf="comprobanteForm.get('fecha_inicio')?.invalid && comprobanteForm.get('fecha_inicio')?.touched"
+        class="text-red-500 text-xs font-medium mt-1 ml-1">
+        El campo es obligatorio.
+    </div>
+</div>
         </div>
 
         <!-- Plan de Membresía -->
