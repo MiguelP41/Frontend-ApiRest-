@@ -32,6 +32,7 @@ export class DashboardLayout {
     
     // 1. Limpiar el token (o llamar a un servicio de AuthService para hacerlo)
     localStorage.removeItem('jwtToken');
+    localStorage.clear();
     
     // 2. Navegar a la ruta de login
     this.router.navigate(['/login']);

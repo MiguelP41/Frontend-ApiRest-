@@ -89,6 +89,7 @@ export class Auth {
       localStorage.removeItem(this.userKey);
       localStorage.removeItem(this.tokenKey);
       localStorage.removeItem(this.roleKey);
+      localStorage.clear();
       this.router.navigate(['/login']);
     }
 

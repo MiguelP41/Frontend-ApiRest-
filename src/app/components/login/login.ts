@@ -3,8 +3,9 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Auth } from '../../services/auth';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, Router } from '@angular/router';
-// Eliminamos FormsModule porque usamos ReactiveFormsModule
-// import { FormsModule } from '@angular/forms'; 
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+
 
 @Component({
   selector: 'app-login',
@@ -18,35 +19,49 @@ import { RouterOutlet, Router } from '@angular/router';
 export class LoginComponent {
 
   loginSuccess = output<void>();
-
-  // 1. INYECCIÓN MODERNA: Usamos inject() para todos los servicios
   private router = inject(Router);
-  private authService = inject(Auth); // <--- CAMBIO CLAVE
+  private authService = inject(Auth);
+  private http = inject(HttpClient);
 
-  // Propiedades públicas (accesibles en el HTML)
   isLoading = signal(false);
   errorMessage = signal<string | null>(null);
+  mostrarPassword = signal(false); // 👈 Controla si muestra el campo contraseña
+  rolDetectado = signal<string | null>(null); // 👈 Guarda el rol
 
-  // Formulario Reactivo (Propiedad pública)
   loginForm = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl(''),
     tipo_docu: new FormControl('V', Validators.required)
   });
 
-  // 2. Eliminamos el constructor, ya que las inyecciones se hicieron arriba
-  // constructor(private authService: Auth) {} 
+  constructor() {}
 
-  // Usamos un constructor vacío si no hay lógica, o simplemente lo eliminamos
-  constructor() { }
+  // Paso 1 — Verificar rol al salir del campo cédula
+  verificarRol(): void {
+    const { tipo_docu, username } = this.loginForm.getRawValue();
+    if (!username) return;
 
+    const usernameCompleto = tipo_docu + username;
+
+    this.http.post<any>(`${environment.apiUrl}/check-rol`, { usuario: usernameCompleto })
+      .subscribe({
+        next: (res) => {
+          this.rolDetectado.set(res.rol);
+          if (res.rol === 'ROLE_Jefe') {
+            this.mostrarPassword.set(true); // 👈 Muestra campo contraseña
+          } else {
+            this.mostrarPassword.set(false);
+            this.login(); // 👈 Cliente entra directo
+          }
+        },
+        error: () => {
+          this.errorMessage.set('Usuario no encontrado.');
+        }
+      });
+  }
+
+  // Paso 2 — Login
   login(): void {
-    if (this.loginForm.invalid) {
-      this.errorMessage.set('Por favor, ingresa tu usuario y contraseña.');
-      return;
-    }
-
-    // Obtener los valores (uso seguro de getRawValue en formularios tipados)
     const { tipo_docu, username, password } = this.loginForm.getRawValue();
     const usernameCompleto = tipo_docu! + username!;
 
@@ -57,60 +72,25 @@ export class LoginComponent {
       next: () => {
         this.isLoading.set(false);
         const userRole = this.authService.getRole();
-
         if (userRole === 'ROLE_Jefe') {
-          console.log('Redirigiendo a Dasboard Administrativo');
           this.router.navigate(['/Dasboard']);
         } else if (userRole === 'ROLE_Empleado') {
-          console.log('Redirigiendo a Dasboard Cliente');
           this.router.navigate(['/Client/Dasboard/nuevo-pago']);
-          //this.router.navigate(['/Client']);
-          //this.authService.logout();
-
         } else {
           this.router.navigate(['/login']);
         }
-
-
-
-        console.log('Login exitoso. Cambiando a vista de aplicación.');
-        //this.router.navigate(['/Dasboard']);
       },
       error: (err) => {
         this.isLoading.set(false);
         this.errorMessage.set('Credenciales incorrectas.');
-        console.error('Login Failed', err);
       }
     });
-
-
-
-
   }
 
   formatearCedula(event: any) {
     const input = event.target as HTMLInputElement;
-    // Remueve cualquier caracter que no sea un número
     input.value = input.value.replace(/[^0-9]/g, '');
-    // Actualiza el valor en el formulario
     this.loginForm.get('username')?.setValue(input.value, { emitEvent: false });
   }
-
-
-
-  //login(): void {
-  //this.errorMessage = null;
-  //   this.authService.login(this.user, this.password).subscribe({
-  //   next:() => {
-  //         console.log('Login exitoso. Cambiando a vista de aplicación.');
-  //         this.router.navigate(['/Dasboard']);
-  //this.loginSuccess.emit();
-  //     },
-  //    error: (err) => {
-  // this.errorMessage = 'Credenciales incorrectas.';
-  //       console.error('Login Failed', err);
-  //     }
-  //   })
-  // }
 
 }
